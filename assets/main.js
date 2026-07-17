@@ -5,6 +5,133 @@
   const qsa = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Centralized Data Configuration */
+  const siteConfig = {
+    agencyName: "Nexo Agencia Creativa",
+    whatsappDisplay: "+58 414-703-5317",
+    whatsappE164: "584147035317",
+    whatsappUrl: "https://wa.me/584147035317",
+    phoneHref: "tel:+584147035317",
+    location: "Mérida, Venezuela",
+    instagram: "https://www.instagram.com/nexo_ac/"
+  };
+
+  const projects = [
+    {
+      id: "burger-house",
+      slug: "proyectos/burger-house.html",
+      name: "Burger House",
+      category: "Gastronomía",
+      summary: "Una personalidad rebelde para una dark kitchen que necesitaba diferenciarse en una categoría llena de mensajes similares.",
+      services: "Estrategia · Gestión de redes sociales · Producción audiovisual · Publicidad digital",
+      cover: "assets/img/project-burger-house.svg",
+      alt: "Fotografía de producto desarrollada para Burger House.",
+      tags: ["gastronomia", "estrategia", "social", "contenido", "publicidad"],
+      featured: true,
+      active: true,
+      order: 1,
+      heroNumber: "01",
+      heroCode: "BH",
+      heroMeta: "Estrategia de redes · Dirección creativa · Producción de contenido · Copywriting"
+    },
+    {
+      id: "moffyns",
+      slug: "proyectos/moffyns.html",
+      name: "Moffyns",
+      category: "Café & gastronomía",
+      summary: "Una oferta gastronómica amplia organizada alrededor de productos, momentos y experiencias capaces de llevar personas a sus sedes.",
+      services: "Estrategia · Producción de contenido · Diseño e identidad · Redes sociales",
+      cover: "assets/img/project-moffyns.svg",
+      alt: "Contenido audiovisual producido para Moffyns.",
+      tags: ["gastronomia", "estrategia", "social", "contenido", "diseño"],
+      featured: true,
+      active: true,
+      order: 2,
+      heroNumber: "02",
+      heroCode: "MF",
+      heroMeta: "Social Media · Producción audiovisual · Dirección visual · Contenido comercial"
+    },
+    {
+      id: "milkarf",
+      slug: "proyectos/milkarf.html",
+      name: "Milkarf",
+      category: "Producto",
+      summary: "La construcción de una presencia digital desde cero para presentar una categoría, educar al público y generar confianza en el producto.",
+      services: "Estrategia de lanzamiento · Producción de contenido · Redes sociales",
+      cover: "assets/img/project-paolafisiofit.svg",
+      alt: "Diseño educativo creado para la estrategia digital de Milkarf.",
+      tags: ["salud", "productos", "estrategia", "contenido", "diseño"],
+      featured: true,
+      active: true,
+      order: 3,
+      heroNumber: "03",
+      heroCode: "MK",
+      heroMeta: "Lanzamiento digital · Estrategia · Contenido educativo · Posicionamiento"
+    },
+    {
+      id: "impreco",
+      slug: "proyectos/impreco.html",
+      name: "Impreco",
+      category: "Empaques",
+      summary: "Productos, materiales y soluciones de empaque convertidos en un catálogo digital claro, visual y comercial.",
+      services: "Diseño y dirección creativa · Comunicación digital · Gestión de redes",
+      cover: "assets/img/project-impreco.svg",
+      alt: "Catálogo digital y comunicación comercial creada para Impreco.",
+      tags: ["servicios", "productos", "estrategia", "social", "diseño", "contenido"],
+      featured: true,
+      active: true,
+      order: 4,
+      heroNumber: "04",
+      heroCode: "IM",
+      heroMeta: "Comunicación de producto · Diseño gráfico · Social Media · Contenido comercial"
+    },
+    {
+      id: "paolafisiofit",
+      slug: "proyectos/paolafisiofit.html",
+      name: "Paolafisiofit",
+      category: "Salud",
+      summary: "Conocimiento profesional traducido en una comunicación educativa, preventiva y cercana para fortalecer una marca personal de fisioterapia.",
+      services: "Estrategia de posicionamiento · Diseño visual · Gestión de contenido",
+      cover: "assets/img/project-paolafisiofit.svg",
+      alt: "Contenido educativo y preventivo creado para Paolafisiofit.",
+      tags: ["salud", "estrategia", "social", "diseño", "contenido"],
+      featured: true,
+      active: true,
+      order: 5,
+      heroNumber: "05",
+      heroCode: "PF",
+      heroMeta: "Estrategia · Marca personal · Diseño · Contenido educativo"
+    },
+    {
+      id: "will-auto-service",
+      slug: "proyectos/will-auto-service.html",
+      name: "Will Auto Service",
+      category: "Automotriz",
+      summary: "Una comunicación automotriz basada en diagnóstico, evidencia y transparencia para construir confianza antes de que el cliente llegue al taller.",
+      services: "Estrategia digital · Producción de contenido · Publicidad en Meta Ads",
+      cover: "assets/img/project-will-auto-service.svg",
+      alt: "Estrategia y contenido automotriz desarrollado para Will Auto Service.",
+      tags: ["automotriz", "estrategia", "social", "contenido", "publicidad"],
+      featured: true,
+      active: true,
+      order: 6,
+      heroNumber: "06",
+      heroCode: "WA",
+      heroMeta: "Estrategia · Producción de contenido · Posicionamiento · Publicidad digital"
+    }
+  ];
+
+  const teamMembers = []; // Preparado para perfiles dinámicos
+
+  window.NexoSystem = { siteConfig, projects, teamMembers };
+
+  const getPrefix = () => {
+    const page = document.body.dataset.page || '';
+    return page.startsWith('proyectos/') ? '../' : '';
+  };
+
+  const formatNum = (num) => String(num).padStart(2, '0');
+
   /* Preloader */
   const preloader = qs('.preloader');
   if (preloader) {
@@ -271,9 +398,10 @@
     finalCta.style.setProperty('--glow-y', `${event.clientY - rect.top - rect.height / 2}px`);
   });
 
-  /* Multi-step project form */
+  /* Multi-step project form with enhanced security & validation */
   const form = qs('#project-form');
   if (form) {
+    const formInitTime = performance.now();
     const steps = qsa('.form-step', form);
     const progressBars = qsa('.form-progress__bar');
     const success = qs('.form-success', form);
@@ -342,6 +470,14 @@
       if (!validateStep()) return;
 
       const data = new FormData(form);
+      /* Honeypot check for spam bots */
+      if (data.get('_honey')) return;
+      /* Minimum timestamp check (prevents automated instant submission) */
+      if (performance.now() - formInitTime < 2800) {
+        alert('Por favor tómate un momento para verificar tu información antes de enviar.');
+        return;
+      }
+
       const getAll = name => data.getAll(name).filter(Boolean).join(', ') || 'No indicado';
       const lines = [
         'Hola Nexo, quiero iniciar un proyecto.',
@@ -357,10 +493,16 @@
         `Teléfono: ${data.get('phone') || 'No indicado'}`,
         `Información adicional: ${data.get('message') || 'Sin comentarios adicionales'}`
       ];
-      const whatsappNumber = form.dataset.whatsappNumber || '';
+      const whatsappNumber = siteConfig.whatsappE164 || form.dataset.whatsappNumber || '584147035317';
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
       const fallback = qs('#whatsapp-fallback');
       if (fallback) fallback.href = whatsappUrl;
+
+      const submitBtn = qs('button[type="submit"]', form);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        window.setTimeout(() => { submitBtn.disabled = false; }, 6000);
+      }
 
       steps[current].classList.remove('is-active');
       success?.classList.add('is-visible');
@@ -372,54 +514,99 @@
     });
   }
 
+  /* Dynamic Rendering: Hero Showcase Tabs & Switcher */
+  const heroShowcase = qs('.hero-showcase');
+  if (heroShowcase && projects.length) {
+    const activeProjects = projects.filter(p => p.active);
+    const counterNode = qs('.hero-showcase__counter span', heroShowcase);
+    const tabsContainer = qs('.hero-showcase__tabs', heroShowcase);
+    
+    if (tabsContainer && activeProjects.length) {
+      tabsContainer.innerHTML = activeProjects.map((p, idx) => `
+        <button type="button" class="hero-tab${idx === 0 ? ' is-active' : ''}" data-hero-project="${p.id}" data-image="${getPrefix()}${p.cover}" data-title="${p.name}" data-meta="${p.heroMeta || p.services}" data-number="${formatNum(idx + 1)} / ${formatNum(activeProjects.length)}" aria-label="Ver vista previa de ${p.name}" aria-pressed="${idx === 0 ? 'true' : 'false'}">${p.heroCode || p.name.substring(0, 2).toUpperCase()}</button>
+      `).join('');
+    }
 
-  /* Hero project switcher */
-  const heroProjectButtons = qsa('[data-hero-project]');
-  const heroProjectImage = qs('#hero-project-image');
-  const heroProjectTitle = qs('#hero-project-title');
-  const heroProjectMeta = qs('#hero-project-meta');
-  const heroProjectNumber = qs('#hero-project-number');
-  let heroIndex = 0;
-  let heroTimer = null;
+    const heroProjectButtons = qsa('[data-hero-project]');
+    const heroProjectImage = qs('#hero-project-image');
+    const heroProjectTitle = qs('#hero-project-title');
+    const heroProjectMeta = qs('#hero-project-meta');
+    const heroProjectNumber = qs('#hero-project-number');
+    let heroIndex = 0;
+    let heroTimer = null;
+    let isPaused = false;
 
-  const setHeroProject = (button, userInitiated = false) => {
-    if (!button || !heroProjectImage) return;
-    heroIndex = heroProjectButtons.indexOf(button);
-    heroProjectButtons.forEach(item => {
-      const active = item === button;
-      item.classList.toggle('is-active', active);
-      item.setAttribute('aria-pressed', String(active));
-    });
-    heroProjectImage.style.opacity = '0';
-    heroProjectImage.style.transform = 'scale(1.018)';
-    window.setTimeout(() => {
-      heroProjectImage.src = button.dataset.image;
-      heroProjectImage.alt = `Proyecto ${button.dataset.title}`;
-      if (heroProjectTitle) heroProjectTitle.textContent = button.dataset.title;
-      if (heroProjectMeta) heroProjectMeta.textContent = button.dataset.meta;
-      if (heroProjectNumber) heroProjectNumber.textContent = button.dataset.number;
-      heroProjectImage.style.opacity = '1';
-      heroProjectImage.style.transform = '';
-    }, 180);
-    if (userInitiated && heroTimer) {
-      window.clearInterval(heroTimer);
+    const setHeroProject = (button, userInitiated = false) => {
+      if (!button || !heroProjectImage) return;
+      heroIndex = heroProjectButtons.indexOf(button);
+      if (heroIndex === -1) heroIndex = 0;
+      heroProjectButtons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      heroProjectImage.style.opacity = '0';
+      heroProjectImage.style.transform = 'scale(1.018)';
+      window.setTimeout(() => {
+        heroProjectImage.src = button.dataset.image;
+        heroProjectImage.alt = `Proyecto ${button.dataset.title}`;
+        if (heroProjectTitle) heroProjectTitle.textContent = button.dataset.title;
+        if (heroProjectMeta) heroProjectMeta.textContent = button.dataset.meta;
+        if (heroProjectNumber) heroProjectNumber.textContent = button.dataset.number;
+        heroProjectImage.style.opacity = '1';
+        heroProjectImage.style.transform = '';
+      }, 180);
+      if (userInitiated && heroTimer) {
+        window.clearInterval(heroTimer);
+        startHeroTimer();
+      }
+    };
+
+    const startHeroTimer = () => {
+      if (heroTimer) window.clearInterval(heroTimer);
+      if (heroProjectButtons.length <= 1 || reducedMotion || isPaused || document.hidden) return;
       heroTimer = window.setInterval(() => {
+        if (isPaused || document.hidden) return;
         const next = (heroIndex + 1) % heroProjectButtons.length;
         setHeroProject(heroProjectButtons[next]);
       }, 5200);
-    }
-  };
+    };
 
-  heroProjectButtons.forEach(button => button.addEventListener('click', () => setHeroProject(button, true)));
-  if (heroProjectButtons.length > 1 && !reducedMotion) {
-    heroTimer = window.setInterval(() => {
-      const next = (heroIndex + 1) % heroProjectButtons.length;
-      setHeroProject(heroProjectButtons[next]);
-    }, 5200);
-  }
+    heroProjectButtons.forEach(button => button.addEventListener('click', () => setHeroProject(button, true)));
+    
+    heroShowcase.addEventListener('mouseenter', () => { isPaused = true; });
+    heroShowcase.addEventListener('mouseleave', () => { isPaused = false; });
+    heroShowcase.addEventListener('focusin', () => { isPaused = true; });
+    heroShowcase.addEventListener('focusout', () => { isPaused = false; });
 
-  /* Preload assets & manage timer on visibility change */
-  if (heroProjectButtons.length) {
+    /* Keyboard arrow navigation inside hero showcase */
+    heroShowcase.addEventListener('keydown', event => {
+      if (heroProjectButtons.length <= 1) return;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        const next = (heroIndex + 1) % heroProjectButtons.length;
+        setHeroProject(heroProjectButtons[next], true);
+        heroProjectButtons[next].focus();
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const prev = (heroIndex - 1 + heroProjectButtons.length) % heroProjectButtons.length;
+        setHeroProject(heroProjectButtons[prev], true);
+        heroProjectButtons[prev].focus();
+      }
+    });
+
+    startHeroTimer();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && heroTimer) {
+        window.clearInterval(heroTimer);
+        heroTimer = null;
+      } else if (!document.hidden) {
+        startHeroTimer();
+      }
+    });
+
+    /* Preload project covers */
     const preloadAssets = () => {
       heroProjectButtons.forEach(btn => {
         if (btn.dataset.image) {
@@ -428,7 +615,7 @@
         }
       });
       const poster = new Image();
-      poster.src = 'assets/img/showreel-poster.svg';
+      poster.src = `${getPrefix()}assets/img/showreel-poster.svg`;
     };
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(preloadAssets);
@@ -437,17 +624,178 @@
     }
   }
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && heroTimer) {
-      window.clearInterval(heroTimer);
-      heroTimer = null;
-    } else if (!document.hidden && !heroTimer && heroProjectButtons.length > 1 && !reducedMotion) {
-      heroTimer = window.setInterval(() => {
-        const next = (heroIndex + 1) % heroProjectButtons.length;
-        setHeroProject(heroProjectButtons[next]);
-      }, 5200);
+  /* Dynamic Rendering: Home Featured Projects (`renderHomeProjects`) */
+  const renderHomeProjects = () => {
+    const homeGrid = qs('[data-render-home-projects]') || qs('#proyectos .project-feature-grid');
+    if (!homeGrid || !projects.length) return;
+    const activeProjects = projects.filter(p => p.active);
+    if (!activeProjects.length) return;
+
+    homeGrid.innerHTML = activeProjects.map((p, idx) => {
+      const isWide = p.order === 1 || idx === 0;
+      const isTall = idx % 2 !== 0 && !isWide;
+      const cardClass = isWide ? 'project-feature project-feature--wide' : (isTall ? 'project-feature project-feature--tall' : 'project-feature');
+      const prefix = getPrefix();
+      
+      return `
+        <article class="${cardClass}" data-reveal="">
+          <a class="project-feature__link" href="${prefix}${p.slug}" data-cursor="Ver caso">
+            <figure class="project-feature__visual">
+              <img src="${prefix}${p.cover}" alt="${p.alt || p.name}" loading="lazy" decoding="async" width="1600" height="1100">
+              <span class="project-feature__badge">Nexo / ${formatNum(idx + 1)}</span>
+            </figure>
+            <div class="project-feature__content">
+              <span class="project-feature__category">${p.category}</span>
+              <h3 class="project-feature__title">${p.name}</h3>
+              <p class="project-feature__summary">${p.summary}</p>
+              <div class="project-feature__meta">
+                <span><strong>Servicios:</strong> ${p.services}</span>
+              </div>
+              <span class="project-feature__cta">Explorar caso de estudio ↗</span>
+            </div>
+          </a>
+        </article>
+      `;
+    }).join('');
+
+    /* Observe new reveal elements if needed */
+    if ('IntersectionObserver' in window && !reducedMotion) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.13, rootMargin: '0px 0px -8% 0px' });
+      qsa('[data-reveal]', homeGrid).forEach(node => observer.observe(node));
+    } else {
+      qsa('[data-reveal]', homeGrid).forEach(node => node.classList.add('is-visible'));
     }
-  });
+  };
+  renderHomeProjects();
+
+  /* Dynamic Rendering: Portfolio Grid (`renderPortfolioProjects`) */
+  const renderPortfolioProjects = () => {
+    const portfolioGrid = qs('[data-render-portfolio-grid]') || (document.body.dataset.page === 'proyectos/index.html' ? qs('.portfolio-grid') : null);
+    if (!portfolioGrid || !projects.length) return;
+    const activeProjects = projects.filter(p => p.active);
+    if (!activeProjects.length) return;
+
+    const accents = ['#E64A00', '#F5C535', '#00BFA5', '#5E35B1', '#979797', '#E64A00'];
+    const prefix = getPrefix();
+
+    portfolioGrid.innerHTML = activeProjects.map((p, idx) => {
+      const accent = accents[idx % accents.length];
+      const tagsStr = (p.tags || []).join(' ');
+      return `
+        <a class="project-card" href="${prefix}${p.slug}" data-cursor="Ver caso" data-project-tags="${tagsStr}" style="--accent:${accent}">
+          <img class="project-card__image" src="${prefix}${p.cover}" alt="${p.alt || p.name}" loading="lazy" decoding="async" width="1600" height="1100">
+          <div class="project-card__content">
+            <span class="project-card__number">Nexo / ${formatNum(idx + 1)}</span>
+            <h3 class="project-card__title">${p.name}</h3>
+            <p class="project-card__meta">${p.services}</p>
+          </div>
+          <span class="project-card__cta" aria-hidden="true">Ver<br>caso</span>
+        </a>
+      `;
+    }).join('');
+  };
+  renderPortfolioProjects();
+
+  /* Dynamic Rendering: Team (`renderTeam`) */
+  const renderTeam = () => {
+    const teamContainer = qs('[data-render-team]');
+    if (!teamContainer) return;
+    const activeMembers = teamMembers.filter(m => m.active && m.name && m.role && m.image);
+    
+    if (activeMembers.length > 0) {
+      teamContainer.innerHTML = `
+        <div class="team-grid">
+          ${activeMembers.map(m => `
+            <article class="team-card">
+              <figure class="team-card__image">
+                <img src="${getPrefix()}${m.image}" alt="${m.alt || m.name}" loading="lazy" decoding="async">
+              </figure>
+              <div class="team-card__content">
+                <h3 class="team-card__name">${m.name}</h3>
+                <span class="team-card__role">${m.role}</span>
+                ${m.bio ? `<p class="team-card__bio">${m.bio}</p>` : ''}
+              </div>
+            </article>
+          `).join('')}
+        </div>
+      `;
+    } else {
+      /* Introducción general y áreas principales cuando aún no hay perfiles individuales cargados */
+      teamContainer.innerHTML = `
+        <div class="team-intro-layout">
+          <div class="team-intro__text">
+            <h3 class="display-md">Una dirección multidisciplinaria orientada a resultados.</h3>
+            <p class="lead">En Nexo conectamos la estrategia de negocio con la excelencia en diseño, producción audiovisual y pauta publicitaria. No trabajamos como proveedores aislados, sino como un equipo creativo integrado a la realidad comercial de tu marca.</p>
+          </div>
+          <div class="team-areas-grid">
+            <div class="team-area-card">
+              <span class="team-area__number">01</span>
+              <h4>Estrategia & Dirección</h4>
+              <p>Investigación de mercado, arquitectura de marca, posicionamiento y consultoría de comunicación.</p>
+            </div>
+            <div class="team-area-card">
+              <span class="team-area__number">02</span>
+              <h4>Creatividad & Copywriting</h4>
+              <p>Conceptos de campaña, guiones audiovisuales, tono de voz y redacción publicitaria de alto impacto.</p>
+            </div>
+            <div class="team-area-card">
+              <span class="team-area__number">03</span>
+              <h4>Producción Audiovisual</h4>
+              <p>Dirección fotográfica, rodaje, edición, motion graphics y formatos nativos para plataformas digitales.</p>
+            </div>
+            <div class="team-area-card">
+              <span class="team-area__number">04</span>
+              <h4>Diseño e Identidad</h4>
+              <p>Sistemas visuales, empaques, dirección de arte digital e interfaces web enfocadas en conversión.</p>
+            </div>
+            <div class="team-area-card">
+              <span class="team-area__number">05</span>
+              <h4>Publicidad Digital</h4>
+              <p>Gestión estratégica de campañas en Meta Ads y Google Ads enfocada en rendimiento y optimización de presupuesto.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  };
+  renderTeam();
+
+  /* Floating WhatsApp Button (`initFloatingWhatsApp`) */
+  const initFloatingWhatsApp = () => {
+    const floatingBtn = qs('.floating-whatsapp');
+    if (!floatingBtn) return;
+    const footer = qs('.site-footer');
+    const finalCtaNode = qs('.final-cta');
+
+    const updateFloating = () => {
+      const scrollY = window.scrollY;
+      const triggerTop = window.innerHeight * 0.22;
+      let hideNearBottom = false;
+      
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        if (footerRect.top < window.innerHeight + 80) hideNearBottom = true;
+      }
+      if (finalCtaNode) {
+        const ctaRect = finalCtaNode.getBoundingClientRect();
+        if (ctaRect.top < window.innerHeight - 20 && ctaRect.bottom > 0) hideNearBottom = true;
+      }
+
+      const shouldShow = scrollY > triggerTop && !hideNearBottom;
+      floatingBtn.classList.toggle('is-visible', shouldShow);
+    };
+
+    updateFloating();
+    window.addEventListener('scroll', updateFloating, { passive: true });
+  };
+  initFloatingWhatsApp();
 
   /* V2 services accordion */
   qsa('.service-row__trigger').forEach(trigger => {

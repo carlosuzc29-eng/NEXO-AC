@@ -85,6 +85,10 @@ Los datos generales están en [`site.config.json`](site.config.json):
 
 Para cambiar textos, proyectos o servicios, edita los archivos HTML correspondientes. Los estilos están centralizados en `assets/styles.css` y las interacciones en `assets/main.js`.
 
+## Seguridad
+
+El sitio implementa directivas estrictas de Content-Security-Policy (CSP), validación en cliente con honeypot anti-spam, protección contra re-envío de formularios (`rate limiting`) y enlaces sanitizados con `rel="noopener noreferrer"`. Para más detalles técnicos y reporte responsable de vulnerabilidades, consulta [`SECURITY.md`](SECURITY.md).
+
 ## Estructura
 
 ```text

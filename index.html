@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#07131D" name="theme-color"/>
+<meta content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://wa.me https://www.instagram.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://wa.me;" http-equiv="Content-Security-Policy"/>
 <title>Nexo Agencia Creativa | Estrategia, contenido y gestión digital</title>
 <meta content="Diseñamos, producimos y gestionamos la presencia digital de marcas mediante estrategia, contenido, diseño, social media y publicidad en Meta Ads." name="description"/>
 <meta content="Nexo Agencia Creativa | Estrategia, contenido y gestión digital" property="og:title"/>
@@ -111,12 +112,12 @@
 <p id="hero-project-meta">Estrategia de redes · Dirección creativa · Producción de contenido · Copywriting</p>
 </div>
 <div aria-label="Cambiar proyecto destacado" class="hero-showcase__tabs" role="tablist">
-<button aria-pressed="true" class="hero-tab is-active" data-hero-project="" data-image="assets/img/project-burger-house.svg" data-meta="Estrategia de redes · Dirección creativa · Producción de contenido · Copywriting" data-number="01" data-title="Burger House" type="button">BH</button>
-<button aria-pressed="false" class="hero-tab" data-hero-project="" data-image="assets/img/project-moffyns.svg" data-meta="Social Media · Producción audiovisual · Dirección visual · Contenido comercial" data-number="02" data-title="Moffyns" type="button">MF</button>
-<button aria-pressed="false" class="hero-tab" data-hero-project="" data-image="assets/img/project-milkarf.svg" data-meta="Lanzamiento digital · Estrategia · Contenido educativo · Posicionamiento" data-number="03" data-title="Milkarf" type="button">MK</button>
-<button aria-pressed="false" class="hero-tab" data-hero-project="" data-image="assets/img/project-impreco.svg" data-meta="Comunicación de producto · Diseño gráfico · Social Media · Contenido comercial" data-number="04" data-title="Impreco" type="button">IM</button>
-<button aria-pressed="false" class="hero-tab" data-hero-project="" data-image="assets/img/project-paolafisiofit.svg" data-meta="Estrategia · Marca personal · Diseño · Contenido educativo" data-number="05" data-title="Paolafisiofit" type="button">PF</button>
-<button aria-pressed="false" class="hero-tab" data-hero-project="" data-image="assets/img/project-will-auto-service.svg" data-meta="Estrategia · Producción de contenido · Posicionamiento · Publicidad digital" data-number="06" data-title="Will Auto Service" type="button">WA</button>
+<button aria-pressed="true" class="hero-tab is-active" data-hero-project="burger-house" data-image="assets/img/project-burger-house.svg" data-meta="Estrategia de redes · Dirección creativa · Producción de contenido · Copywriting" data-number="01 / 06" data-title="Burger House" type="button">BH</button>
+<button aria-pressed="false" class="hero-tab" data-hero-project="moffyns" data-image="assets/img/project-moffyns.svg" data-meta="Social Media · Producción audiovisual · Dirección visual · Contenido comercial" data-number="02 / 06" data-title="Moffyns" type="button">MF</button>
+<button aria-pressed="false" class="hero-tab" data-hero-project="milkarf" data-image="assets/img/project-milkarf.svg" data-meta="Lanzamiento digital · Estrategia · Contenido educativo · Posicionamiento" data-number="03 / 06" data-title="Milkarf" type="button">MK</button>
+<button aria-pressed="false" class="hero-tab" data-hero-project="impreco" data-image="assets/img/project-impreco.svg" data-meta="Comunicación de producto · Diseño gráfico · Social Media · Contenido comercial" data-number="04 / 06" data-title="Impreco" type="button">IM</button>
+<button aria-pressed="false" class="hero-tab" data-hero-project="paolafisiofit" data-image="assets/img/project-paolafisiofit.svg" data-meta="Estrategia · Marca personal · Diseño · Contenido educativo" data-number="05 / 06" data-title="Paolafisiofit" type="button">PF</button>
+<button aria-pressed="false" class="hero-tab" data-hero-project="will-auto-service" data-image="assets/img/project-will-auto-service.svg" data-meta="Estrategia · Producción de contenido · Posicionamiento · Publicidad digital" data-number="06 / 06" data-title="Will Auto Service" type="button">WA</button>
 </div>
 </div>
 </div>
@@ -152,7 +153,7 @@
 <a class="text-link" href="proyectos/index.html">EXPLORAR TODOS LOS PROYECTOS ↗</a>
 </div>
 </header>
-<div class="project-feature-grid">
+<div class="project-feature-grid" data-render-home-projects="">
 <a class="project-feature project-feature--wide" data-cursor="Ver caso" href="proyectos/burger-house.html">
 <img alt="Fotografía de producto desarrollada para Burger House." decoding="async" loading="lazy" src="assets/img/project-burger-house.svg"/>
 <div class="project-feature__veil"></div>
@@ -322,8 +323,11 @@
 <span>CADA PIEZA TIENE UNA FUNCIÓN.</span>
 <span>LA CREATIVIDAD TAMBIÉN NECESITA DIRECCIÓN.</span>
 </div>
-<a class="text-link" href="estudio.html">CONOCER NEXO ↗</a>
+<a class="text-link" href="estudio.html">CONOCER EL ESTUDIO Y EL EQUIPO ↗</a>
 </div>
+</div>
+<div class="container" id="equipo-preview" style="margin-top: 4.5rem;">
+<div data-render-team=""></div>
 </div>
 </section>
 <section class="final-cta-v2 section section--dark">
@@ -334,7 +338,7 @@
 <p>Cuéntanos qué estás construyendo, qué necesita mejorar y hacia dónde quieres llevar tu presencia digital. Diseñaremos una propuesta según las necesidades reales del proyecto.</p>
 <div class="btn-row">
 <a class="btn btn--green" data-magnetic="" href="iniciar-proyecto.html">INICIAR UN PROYECTO</a>
-<a class="btn btn--light btn--ghost" href="https://wa.me/584147511828?text=Hola%20Nexo%2C%20quiero%20conversar%20sobre%20un%20proyecto." rel="noopener noreferrer" target="_blank">HABLAR POR WHATSAPP</a>
+<a class="btn btn--light btn--ghost" href="https://wa.me/584147035317?text=Hola%20Nexo%2C%20quiero%20conversar%20sobre%20un%20proyecto." rel="noopener noreferrer" target="_blank">HABLAR POR WHATSAPP</a>
 </div>
 </div>
 </section>
@@ -354,7 +358,7 @@
 <a href="legal.html">Política de privacidad</a>
 </div>
 <div class="footer-meta"><span>Mérida, Venezuela</span><span>© <span data-year=""></span> Nexo Agencia Creativa. Todos los derechos reservados.</span></div>
-<div class="footer-contact"><a href="https://wa.me/584147511828?text=Hola%20Nexo%2C%20quiero%20conversar%20sobre%20un%20proyecto." rel="noopener noreferrer" target="_blank">WhatsApp ↗</a><a href="https://www.instagram.com/nexo_ac/" rel="noopener noreferrer" target="_blank">Instagram ↗</a><span>Mérida, Venezuela</span></div></div>
+<div class="footer-contact"><a href="https://wa.me/584147035317?text=Hola%20Nexo%2C%20quiero%20conversar%20sobre%20un%20proyecto." rel="noopener noreferrer" target="_blank">WhatsApp ↗</a><a href="https://www.instagram.com/nexo_ac/" rel="noopener noreferrer" target="_blank">Instagram ↗</a><span>Mérida, Venezuela</span></div></div>
 </footer>
 <div aria-hidden="true" aria-labelledby="showreel-title" aria-modal="true" class="modal" id="showreel-modal" role="dialog">
 <div class="modal__content">
@@ -366,6 +370,10 @@
 </div>
 </div>
 <div aria-hidden="true" class="custom-cursor">Ver</div>
+<a aria-label="Hablar por WhatsApp con Nexo" class="floating-whatsapp" href="https://wa.me/584147035317?text=Hola%20Nexo%2C%20quiero%20conversar%20sobre%20un%20proyecto." rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+<span>WhatsApp</span>
+</a>
 <script defer="" src="assets/main.js"></script>
 </body>
 </html>
