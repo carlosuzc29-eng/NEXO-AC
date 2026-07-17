@@ -8,18 +8,25 @@
   /* Preloader */
   const preloader = qs('.preloader');
   if (preloader) {
-    let seen = false;
-    try { seen = sessionStorage.getItem('nexo-preloader-seen') === 'true'; } catch (_) {}
-    if (seen || reducedMotion) {
+    if (reducedMotion) {
       preloader.remove();
     } else {
-      window.addEventListener('load', () => {
+      const startTime = performance.now();
+      const minDuration = 5500; // 5.5 segundos garantizados para rotación completa y carga
+      const dismissPreloader = () => {
+        const elapsed = performance.now() - startTime;
+        const remaining = Math.max(0, minDuration - elapsed);
         window.setTimeout(() => {
           preloader.classList.add('is-hidden');
           try { sessionStorage.setItem('nexo-preloader-seen', 'true'); } catch (_) {}
           window.setTimeout(() => preloader.remove(), 650);
-        }, 850);
-      });
+        }, remaining);
+      };
+      if (document.readyState === 'complete') {
+        dismissPreloader();
+      } else {
+        window.addEventListener('load', dismissPreloader);
+      }
     }
   }
 
