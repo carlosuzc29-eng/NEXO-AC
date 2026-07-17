@@ -6,7 +6,7 @@
 |---|---:|---|
 | `--nexo-blue` | `#1F3549` | Fondo institucional, secciones y navegación |
 | `--nexo-blue-deep` | `#07131D` | Fondos profundos, contraste y showreel |
-| `--nexo-green` | `#5CB83E` | Acción, enlaces, líneas y estados activos |
+| `--nexo-green` | `#00B92C` | Acción, enlaces, líneas y estados activos |
 | `--nexo-white` | `#F5F7F3` | Superficie principal |
 | `--nexo-paper` | `#EDF0EB` | Superficie editorial secundaria |
 | `--nexo-gray` | `#979797` | Información secundaria |

@@ -51,7 +51,7 @@ Antes de diseñar o programar:
 ### Colores base
 
 - Azul institucional: `#1F3549` — RGB 31, 53, 73.
-- Verde institucional: `#5CB83E` — RGB 92, 184, 62.
+- Verde institucional: `#00B92C` — RGB 0, 185, 44.
 - Blanco, negro y grises neutros como soporte.
 
 ### Colores complementarios

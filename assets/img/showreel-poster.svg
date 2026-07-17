@@ -9,13 +9,13 @@
       <rect width="1600" height="1100" fill="url(#grid)"/>
 
 <rect width="1600" height="1100" fill="#07131d"/>
-<circle cx="1320" cy="240" r="360" fill="#5cb83e" opacity=".25" filter="url(#blur)"/>
+<circle cx="1320" cy="240" r="360" fill="#00b92c" opacity=".25" filter="url(#blur)"/>
 <circle cx="260" cy="940" r="360" fill="#1f3549" opacity=".65" filter="url(#blur)"/>
-<text x="110" y="150" font-family="Arial" font-size="24" font-weight="700" fill="#5cb83e" letter-spacing="8">NEXO / EN MOVIMIENTO</text>
+<text x="110" y="150" font-family="Arial" font-size="24" font-weight="700" fill="#00b92c" letter-spacing="8">NEXO / EN MOVIMIENTO</text>
 <text x="110" y="300" font-family="Arial Black, Arial" font-size="120" fill="#fff">MARCAS DIFERENTES.</text>
 <text x="110" y="440" font-family="Arial Black, Arial" font-size="120" fill="#fff">RETOS REALES.</text>
 <text x="110" y="580" font-family="Arial Black, Arial" font-size="120" fill="#fff">UNA MISMA DIRECCIÓN.</text>
-<g transform="translate(1220 780)"><circle r="115" fill="#5cb83e"/><path d="M-28-48L60 0-28 48z" fill="#07131d"/></g>
-<path d="M110 650H920l180 180h240" fill="none" stroke="#5cb83e" stroke-width="12"/><path d="M1340 830l-48-28v56z" fill="#5cb83e"/>
+<g transform="translate(1220 780)"><circle r="115" fill="#00b92c"/><path d="M-28-48L60 0-28 48z" fill="#07131d"/></g>
+<path d="M110 650H920l180 180h240" fill="none" stroke="#00b92c" stroke-width="12"/><path d="M1340 830l-48-28v56z" fill="#00b92c"/>
 
     </svg>
