@@ -1,0 +1,11 @@
+{
+  "name": "nexo-agencia-creativa-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portafolio y catálogo de servicios de Nexo Agencia Creativa.",
+  "scripts": {
+    "preview": "python3 -m http.server 8000",
+    "validate": "python3 scripts/validate_site.py",
+    "build": "python3 scripts/prepare_deploy.py"
+  }
+}

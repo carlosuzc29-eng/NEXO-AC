@@ -1,0 +1,53 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-label="Proyecto Moffyns">
+      <defs>
+        <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="28" stdDeviation="32" flood-color="#000" flood-opacity=".28"/></filter>
+        <filter id="blur"><feGaussianBlur stdDeviation="80"/></filter>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".19"/><stop offset="1" stop-color="#fff" stop-opacity=".03"/></linearGradient>
+        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#fff" stroke-opacity=".06"/></pattern>
+      </defs>
+      <rect width="1600" height="1100" fill="#efe5d7"/>
+      <rect width="1600" height="1100" fill="url(#grid)"/>
+
+<rect width="1600" height="1100" fill="#efe5d7"/>
+<circle cx="1450" cy="160" r="360" fill="#f2c84b" opacity=".20" filter="url(#blur)"/>
+<circle cx="180" cy="1000" r="320" fill="#8b5a3c" opacity=".15" filter="url(#blur)"/>
+<text x="90" y="118" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#9b6a41" letter-spacing="8">NEXO / 02</text>
+<text x="90" y="225" font-family="Georgia, serif" font-size="118" font-weight="700" fill="#3c2619">MOFFYNS</text>
+<text x="92" y="278" font-family="Arial, sans-serif" font-size="24" fill="#6e4b35" letter-spacing="4">CONTENIDO · PRODUCCIÓN · EXPERIENCIA DE MARCA</text>
+<path d="M92 342H600l118 118h360" fill="none" stroke="#c89f68" stroke-width="8"/>
+<path d="M1078 460l-36-21v42z" fill="#c89f68"/>
+<g transform="translate(1030 145) rotate(-4 180.0 325.0)" filter="url(#shadow)">
+      <rect width="360" height="650" rx="43.199999999999996" fill="#0b0f13"/>
+      <rect x="16.2" y="16.25" width="327.6" height="617.5" rx="32.4" fill="#f7f5ef"/>
+      <rect x="140.4" y="29.25" width="79.2" height="14.299999999999999" rx="8" fill="#0b0f13"/>
+
+<rect x="18" y="62" width="324" height="530" rx="24" fill="#f6efe0"/>
+<text x="42" y="110" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#4b2f20">MOFFYNS</text>
+<text x="42" y="141" font-family="Arial, sans-serif" font-size="13" fill="#9a6d44" letter-spacing="3">COFFEE · BAKERY · MORE</text>
+<circle cx="180" cy="300" r="127" fill="#d6a66f"/>
+<ellipse cx="180" cy="307" rx="83" ry="98" fill="#fff8ef"/>
+<ellipse cx="180" cy="286" rx="67" ry="56" fill="#5a321e"/>
+<path d="M120 280c26-24 94-24 120 0" fill="none" stroke="#f5e9dc" stroke-width="12" stroke-linecap="round"/>
+<path d="M240 315c48-8 48 70 4 68" fill="none" stroke="#fff8ef" stroke-width="18"/>
+<text x="42" y="493" font-family="Georgia, serif" font-size="25" font-weight="700" fill="#4b2f20">Pausa. Café. Conversación.</text>
+<rect x="42" y="519" width="276" height="2" fill="#c59c6b"/>
+
+      <circle cx="180.0" cy="607.75" r="10.08" fill="#f2c84b"/>
+    </g>
+<g transform="translate(610 450) rotate(5)" filter="url(#shadow)">
+ <rect width="420" height="420" rx="30" fill="#4b2f20"/>
+ <circle cx="210" cy="180" r="130" fill="#e6c59e"/>
+ <path d="M110 210c35-115 165-115 200 0-30-24-50-30-100-30s-70 6-100 30z" fill="#e0a75f"/>
+ <path d="M115 215c35 85 155 85 190 0" fill="#c67e3f"/>
+ <path d="M126 223c25 45 140 45 166 0" fill="none" stroke="#f5d5aa" stroke-width="10"/>
+ <text x="36" y="350" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#fff7ed">Siempre es necesario hacer una pausa.</text>
+</g>
+<g transform="translate(120 570) rotate(-6)" filter="url(#shadow)">
+ <rect width="430" height="320" rx="24" fill="#fff9f0"/>
+ <rect x="28" y="28" width="374" height="174" rx="18" fill="#d6a66f"/>
+ <g transform="translate(85 58)"><ellipse cx="100" cy="70" rx="90" ry="55" fill="#d68447"/><path d="M18 65c30-65 135-65 164 0" fill="none" stroke="#f6d69e" stroke-width="14"/><path d="M58 35c15 20 15 55 0 78M98 25c15 25 15 70 0 95M138 35c15 20 15 55 0 78" fill="none" stroke="#8b532f" stroke-width="8"/></g>
+ <text x="28" y="246" font-family="Georgia, serif" font-size="34" fill="#4b2f20" font-weight="700">Tardes que saben mejor.</text>
+ <text x="28" y="282" font-family="Arial, sans-serif" font-size="18" fill="#9b6a41">CAFÉ TOSTADO EN CASA · POSTRES · COMPAÑÍA</text>
+</g>
+
+    </svg>

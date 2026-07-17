@@ -1,0 +1,9 @@
+{
+  "name": "Nexo Agencia Creativa",
+  "short_name": "Nexo",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07131D",
+  "theme_color": "#07131D",
+  "icons": []
+}
