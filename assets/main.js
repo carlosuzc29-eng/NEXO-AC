@@ -213,7 +213,83 @@
     }
   ];
 
-  window.NexoSystem = { siteConfig, projects, teamMembers };
+  /* Configurable Instagram Feed Data */
+  const instagramFeed = [
+    {
+      id: "post-1",
+      type: "Carrusel",
+      icon: "🖼️",
+      image: "assets/img/project-burger-house.svg",
+      likes: 342,
+      comments: 28,
+      caption: "Rebranding + Estrategia digital para Burger House. Construimos un sistema visual con carácter para liderar en el sector gastronómico. 🍔🔥",
+      hashtags: "#NexoAC #Branding #DireccionCreativa #Gastronomia #Merida",
+      date: "Hace 2 días",
+      url: "https://www.instagram.com/nexo_ac/"
+    },
+    {
+      id: "post-2",
+      type: "Reel",
+      icon: "🎞️",
+      image: "assets/img/project-moffyns.svg",
+      likes: 518,
+      comments: 45,
+      caption: "Detrás de escena en la producción audiovisual para Moffyns. Cada plano está pensado para conectar y convertir en redes sociales. ☕✨",
+      hashtags: "#Audiovisual #SocialMedia #ContentMarketing #NexoStudio",
+      date: "Hace 5 días",
+      url: "https://www.instagram.com/nexo_ac/"
+    },
+    {
+      id: "post-3",
+      type: "Foto",
+      icon: "📷",
+      image: "assets/img/project-milkarf.svg",
+      likes: 289,
+      comments: 19,
+      caption: "¿Cómo lanzar un producto desde cero y generar confianza inmediata? Así diseñamos la estrategia de posicionamiento para Milkarf. 🥛🚀",
+      hashtags: "#Lanzamiento #Estrategia #IdentidadDeMarca #Publicidad",
+      date: "Hace 1 semana",
+      url: "https://www.instagram.com/nexo_ac/"
+    },
+    {
+      id: "post-4",
+      type: "Carrusel",
+      icon: "🖼️",
+      image: "assets/img/project-impreco.svg",
+      likes: 412,
+      comments: 31,
+      caption: "Comunicación corporativa B2B que no aburre. Rediseñamos el catálogo y la línea argumental de Impreco para el sector industrial. ⚙️💡",
+      hashtags: "#B2B #DiseñoIndustrial #MarketingEstrategico #Nexo",
+      date: "Hace 2 semanas",
+      url: "https://www.instagram.com/nexo_ac/"
+    },
+    {
+      id: "post-5",
+      type: "Reel",
+      icon: "🎞️",
+      image: "assets/img/project-will-auto-service.svg",
+      likes: 624,
+      comments: 52,
+      caption: "De un taller mecánico tradicional a un centro de servicio automotriz de referencia en digital. El caso Will Auto Service. 🚗🔧",
+      hashtags: "#EstrategiaDigital #MetaAds #BrandExperience #Automotriz",
+      date: "Hace 3 semanas",
+      url: "https://www.instagram.com/nexo_ac/"
+    },
+    {
+      id: "post-6",
+      type: "Foto",
+      icon: "📷",
+      image: "assets/img/project-paolafisiofit.svg",
+      likes: 475,
+      comments: 38,
+      caption: "Marca personal en el sector salud con propósito y profesionalismo. Consultoría creativa y dirección para Paola Fisiofit. 💆‍♀️✨",
+      hashtags: "#MarcaPersonal #SaludYBienestar #SocialMediaStrategy",
+      date: "Hace 1 mes",
+      url: "https://www.instagram.com/nexo_ac/"
+    }
+  ];
+
+  window.NexoSystem = { siteConfig, projects, teamMembers, instagramFeed };
 
   const getPrefix = () => {
     const page = document.body.dataset.page || '';
@@ -931,6 +1007,75 @@
     }
   };
   renderHomeTeam();
+
+  /* Dynamic Rendering: Instagram Feed Showcase Grid (`renderInstagramFeed`) */
+  const renderInstagramFeed = () => {
+    const feedContainers = qsa('[data-render-instagram-feed]');
+    if (feedContainers.length === 0) return;
+
+    feedContainers.forEach(container => {
+      container.innerHTML = `
+        <div class="instagram-feed-shell">
+          <div class="instagram-feed__header">
+            <div class="instagram-feed__brand">
+              <div class="instagram-feed__badge">
+                <span class="live-dot"></span>
+                <span>INSTAGRAM FEED</span>
+              </div>
+              <h3 class="display-md">EN CONEXIÓN DIRECTA CON NUESTRO DÍA A DÍA.</h3>
+              <p class="muted" style="margin-top: 0.6rem;">Explora ideas, procesos creativos y el detrás de escena de nuestras marcas en <a href="${siteConfig.instagram}" target="_blank" rel="noopener noreferrer" class="text-link">@nexo_ac ↗</a></p>
+            </div>
+            <div class="instagram-feed__actions">
+              <a href="${siteConfig.instagram}" target="_blank" rel="noopener noreferrer" class="btn btn--green">SEGUIR EN INSTAGRAM ↗</a>
+            </div>
+          </div>
+          <div class="instagram-grid">
+            ${instagramFeed.map(post => `
+              <article class="instagram-card" data-post-id="${post.id}">
+                <div class="instagram-card__top">
+                  <div class="instagram-card__user">
+                    <div class="instagram-card__avatar">
+                      <img src="${getPrefix()}assets/img/favicon-32.png" alt="Nexo Avatar" width="22" height="22">
+                    </div>
+                    <span>@nexo_ac</span>
+                  </div>
+                  <span class="instagram-card__type" title="${post.type}">${post.icon} ${post.type}</span>
+                </div>
+                <figure class="instagram-card__media">
+                  <img src="${getPrefix()}${post.image}" alt="Publicación de Instagram de Nexo: ${post.caption.substring(0, 45)}..." loading="lazy" decoding="async">
+                  <div class="instagram-card__overlay">
+                    <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="instagram-card__view-btn" aria-label="Ver publicación en Instagram">
+                      <span>VER EN INSTAGRAM ↗</span>
+                    </a>
+                    <div class="instagram-card__stats">
+                      <span>♡ ${post.likes}</span>
+                      <span>💬 ${post.comments}</span>
+                    </div>
+                  </div>
+                </figure>
+                <div class="instagram-card__body">
+                  <div class="instagram-card__icons">
+                    <div class="instagram-card__icons-left">
+                      <span title="Me gusta">♡</span>
+                      <span title="Comentarios">💬</span>
+                      <span title="Compartir">✈</span>
+                    </div>
+                    <span class="instagram-card__bookmark" title="Guardar">🔖</span>
+                  </div>
+                  <div class="instagram-card__likes"><strong>${post.likes}</strong> Me gusta</div>
+                  <p class="instagram-card__caption">
+                    <strong>@nexo_ac</strong> ${post.caption} <span class="instagram-card__hashtags">${post.hashtags}</span>
+                  </p>
+                  <div class="instagram-card__date">${post.date}</div>
+                </div>
+              </article>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+  };
+  renderInstagramFeed();
 
   /* Page Navigation & Back Button (`initPageNavigation`) */
   const initPageNavigation = () => {
