@@ -58,7 +58,7 @@
       category: "Producto",
       summary: "La construcción de una presencia digital desde cero para presentar una categoría, educar al público y generar confianza en el producto.",
       services: "Estrategia de lanzamiento · Producción de contenido · Redes sociales",
-      cover: "assets/img/project-paolafisiofit.svg",
+      cover: "assets/img/project-milkarf.svg",
       alt: "Diseño educativo creado para la estrategia digital de Milkarf.",
       tags: ["salud", "productos", "estrategia", "contenido", "diseño"],
       featured: true,
