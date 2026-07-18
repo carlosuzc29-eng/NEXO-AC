@@ -121,7 +121,97 @@
     }
   ];
 
-  const teamMembers = []; // Preparado para perfiles dinámicos
+  /* 
+   * Array de Equipo (`teamMembers`)
+   * Esquema para perfiles dinámicos y escalabilidad (`active: false` por defecto hasta agregar fotografías reales):
+   * {
+   *   id: 'string', name: 'string', role: 'string', shortBio: 'string', fullBio: 'string',
+   *   image: 'path', alt: 'string', specialty: 'string', instagram: 'url', linkedin: 'url',
+   *   email: 'string', featured: boolean, active: boolean, order: number
+   * }
+   */
+  const teamMembers = [
+    {
+      id: "direccion",
+      name: "Dirección General & Estrategia",
+      role: "Estrategia & Consultoría de Marca",
+      shortBio: "Liderazgo multidisciplinario enfocado en conectar la creatividad con objetivos comerciales reales.",
+      fullBio: "Nuestra dirección general coordina cada etapa del proceso creativo, asegurando que la investigación de mercado, la identidad visual y las campañas digitales trabajen en perfecta sintonía para impulsar el crecimiento comercial de tu marca.",
+      image: "assets/img/team/member-placeholder-1.jpg",
+      alt: "Dirección General & Estrategia en Nexo",
+      specialty: "Posicionamiento y Arquitectura de Marca",
+      instagram: "https://instagram.com/nexo.ac",
+      linkedin: "https://linkedin.com/company/nexo-ac",
+      email: "info@nexo.com",
+      featured: true,
+      active: false,
+      order: 1
+    },
+    {
+      id: "direccion-creativa",
+      name: "Dirección Creativa & Copywriting",
+      role: "Creatividad & Conceptos",
+      shortBio: "Desarrollo conceptual, guiones audiovisuales y redacción publicitaria de alto impacto.",
+      fullBio: "Especializados en conceptualización publicitaria y tono de voz, transformamos los valores de tu marca en historias memorables y mensajes persuasivos que capturan la atención en entornos digitales competitivos.",
+      image: "assets/img/team/member-placeholder-2.jpg",
+      alt: "Dirección Creativa en Nexo",
+      specialty: "Redacción Publicitaria y Guión",
+      instagram: "https://instagram.com/nexo.ac",
+      linkedin: "https://linkedin.com/company/nexo-ac",
+      email: "info@nexo.com",
+      featured: true,
+      active: false,
+      order: 2
+    },
+    {
+      id: "produccion-audiovisual",
+      name: "Producción Audiovisual & Motion",
+      role: "Rodaje, Edición & Postproducción",
+      shortBio: "Creación fotográfica y audiovisual nativa para redes sociales y piezas publicitarias.",
+      fullBio: "Desde la dirección de fotografía y rodaje en set hasta la edición dinámica y motion graphics, nuestro equipo audiovisual produce contenido estético, ágil y diseñado específicamente para generar retención y conversión.",
+      image: "assets/img/team/member-placeholder-3.jpg",
+      alt: "Producción Audiovisual en Nexo",
+      specialty: "Dirección Fotográfica y Edición",
+      instagram: "https://instagram.com/nexo.ac",
+      linkedin: "https://linkedin.com/company/nexo-ac",
+      email: "info@nexo.com",
+      featured: true,
+      active: false,
+      order: 3
+    },
+    {
+      id: "diseno-identidad",
+      name: "Diseño & Experiencia de Usuario",
+      role: "Identidad Visual & UI/UX",
+      shortBio: "Sistemas visuales, empaques, dirección de arte digital e interfaces web eficientes.",
+      fullBio: "Diseñamos identidades visuales sólidas y plataformas digitales institucionales. Cada decisión de color, tipografía y composición está pensada para reflejar la jerarquía y el posicionamiento premium de tu empresa.",
+      image: "assets/img/team/member-placeholder-4.jpg",
+      alt: "Diseño e Identidad en Nexo",
+      specialty: "Dirección de Arte y UI/UX",
+      instagram: "https://instagram.com/nexo.ac",
+      linkedin: "https://linkedin.com/company/nexo-ac",
+      email: "info@nexo.com",
+      featured: true,
+      active: false,
+      order: 4
+    },
+    {
+      id: "publicidad-digital",
+      name: "Performance & Publicidad Digital",
+      role: "Meta Ads & Google Ads",
+      shortBio: "Planificación de medios digitales, optimización de pauta y analítica orientada al ROI.",
+      fullBio: "Gestionamos presupuestos publicitarios con un enfoque analítico riguroso. Segmentamos audiencias estratégicas en Meta Ads y Google Ads para transformar cada pieza creativa en clientes potenciales calificados.",
+      image: "assets/img/team/member-placeholder-5.jpg",
+      alt: "Publicidad Digital en Nexo",
+      specialty: "Tráfico de Pago y Analítica Digital",
+      instagram: "https://instagram.com/nexo.ac",
+      linkedin: "https://linkedin.com/company/nexo-ac",
+      email: "info@nexo.com",
+      featured: true,
+      active: false,
+      order: 5
+    }
+  ];
 
   window.NexoSystem = { siteConfig, projects, teamMembers };
 
@@ -720,7 +810,7 @@
               <div class="team-card__content">
                 <h3 class="team-card__name">${m.name}</h3>
                 <span class="team-card__role">${m.role}</span>
-                ${m.bio ? `<p class="team-card__bio">${m.bio}</p>` : ''}
+                ${m.shortBio || m.bio ? `<p class="team-card__bio">${m.shortBio || m.bio}</p>` : ''}
               </div>
             </article>
           `).join('')}
@@ -766,6 +856,176 @@
     }
   };
   renderTeam();
+
+  /* Dynamic Rendering: Home Team Preview (`renderHomeTeam`) */
+  const renderHomeTeam = () => {
+    const homeTeamContainer = qs('[data-render-home-team]');
+    if (!homeTeamContainer) return;
+    const activeMembers = teamMembers.filter(m => m.active && m.name && m.role && m.image);
+
+    if (activeMembers.length > 0) {
+      const protagonist = activeMembers.find(m => m.featured) || activeMembers[0];
+      const secondary = activeMembers.filter(m => m !== protagonist);
+      homeTeamContainer.innerHTML = `
+        <div class="home-team-layout">
+          <div class="home-team__protagonist">
+            <article class="team-card">
+              <figure class="team-card__image">
+                <img src="${getPrefix()}${protagonist.image}" alt="${protagonist.alt || protagonist.name}" loading="lazy" decoding="async">
+              </figure>
+              <div class="team-card__content">
+                <h3 class="team-card__name">${protagonist.name}</h3>
+                <span class="team-card__role">${protagonist.role}</span>
+                ${protagonist.shortBio ? `<p class="team-card__bio">${protagonist.shortBio}</p>` : ''}
+              </div>
+            </article>
+          </div>
+          ${secondary.length > 0 ? `
+            <div class="home-team__secondary">
+              ${secondary.map(m => `
+                <article class="team-card">
+                  <figure class="team-card__image" style="aspect-ratio: 1/1;">
+                    <img src="${getPrefix()}${m.image}" alt="${m.alt || m.name}" loading="lazy" decoding="async">
+                  </figure>
+                  <div class="team-card__content">
+                    <h4 class="team-card__name" style="font-size:1.1rem;">${m.name}</h4>
+                    <span class="team-card__role">${m.role}</span>
+                  </div>
+                </article>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    } else {
+      /* Estructura por disciplinas para el Home cuando no hay fotos individuales activas */
+      homeTeamContainer.innerHTML = `
+        <div class="team-areas-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+          <div class="team-area-card">
+            <span class="team-area__number">01</span>
+            <h4>Estrategia & Dirección</h4>
+            <p>Consultoría comercial, arquitectura de marca y posicionamiento digital.</p>
+          </div>
+          <div class="team-area-card">
+            <span class="team-area__number">02</span>
+            <h4>Creatividad & Copywriting</h4>
+            <p>Guiones, conceptualización publicitaria y tono de voz memorable.</p>
+          </div>
+          <div class="team-area-card">
+            <span class="team-area__number">03</span>
+            <h4>Producción Audiovisual</h4>
+            <p>Rodaje, edición dinámica y piezas diseñadas para retención web.</p>
+          </div>
+          <div class="team-area-card">
+            <span class="team-area__number">04</span>
+            <h4>Diseño e Identidad</h4>
+            <p>Sistemas visuales institucionales e interfaces orientadas a conversión.</p>
+          </div>
+          <div class="team-area-card">
+            <span class="team-area__number">05</span>
+            <h4>Publicidad Digital</h4>
+            <p>Gestión y analítica en Meta Ads & Google Ads con enfoque ROI.</p>
+          </div>
+        </div>
+      `;
+    }
+  };
+  renderHomeTeam();
+
+  /* Page Navigation & Back Button (`initPageNavigation`) */
+  const initPageNavigation = () => {
+    qsa('.btn-back, [data-action="back"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const fallbackHref = btn.getAttribute('href');
+        if (document.referrer && document.referrer.includes(window.location.hostname) && window.history.length > 1) {
+          e.preventDefault();
+          window.history.back();
+          setTimeout(() => {
+            if (fallbackHref && fallbackHref !== '#') window.location.href = fallbackHref;
+          }, 350);
+        }
+      });
+    });
+
+    const navContainer = qs('[data-page-navigation]');
+    if (!navContainer) return;
+
+    const pageType = navContainer.getAttribute('data-page-navigation');
+    const prefix = getPrefix();
+
+    if (pageType === 'case-study') {
+      const activeProjects = projects.filter(p => p.active !== false);
+      const currentPath = window.location.pathname.split('/').pop() || 'burger-house.html';
+      const currentIndex = activeProjects.findIndex(p => (p.url || '').endsWith(currentPath));
+      if (currentIndex !== -1 && activeProjects.length > 1) {
+        const prevIndex = (currentIndex - 1 + activeProjects.length) % activeProjects.length;
+        const nextIndex = (currentIndex + 1) % activeProjects.length;
+        const prevProject = activeProjects[prevIndex];
+        const nextProject = activeProjects[nextIndex];
+
+        navContainer.innerHTML = `
+          <nav aria-label="Navegación entre proyectos" class="page-navigation">
+            <a href="${prevProject.url}" class="page-nav__link page-nav__link--prev">
+              <span class="page-nav__label">← Proyecto anterior</span>
+              <span class="page-nav__title">
+                <span class="page-nav__arrow page-nav__arrow--left">←</span>
+                ${prevProject.name}
+              </span>
+            </a>
+            <a href="${nextProject.url}" class="page-nav__link page-nav__link--next">
+              <span class="page-nav__label">Siguiente proyecto →</span>
+              <span class="page-nav__title">
+                ${nextProject.name}
+                <span class="page-nav__arrow page-nav__arrow--right">→</span>
+              </span>
+            </a>
+          </nav>
+        `;
+      }
+    } else if (pageType === 'internal') {
+      const pages = [
+        { name: 'Inicio', url: `${prefix}index.html`, desc: 'Portafolio & Propuesta' },
+        { name: 'Proyectos', url: `${prefix}proyectos/index.html`, desc: 'Catálogo de casos' },
+        { name: 'Estudio', url: `${prefix}estudio.html`, desc: 'Metodología & Equipo' },
+        { name: 'Servicios', url: `${prefix}servicios.html`, desc: 'Capacidades creativas' },
+        { name: 'Iniciar Proyecto', url: `${prefix}iniciar-proyecto.html`, desc: 'Consulta & Cotización' },
+        { name: 'Privacidad', url: `${prefix}legal.html`, desc: 'Información legal' }
+      ];
+      const currentPath = window.location.pathname.split('/').pop() || 'estudio.html';
+      const isProyectosDir = window.location.pathname.includes('proyectos/');
+      const currentIndex = pages.findIndex(p => {
+        if (isProyectosDir) return p.name === 'Proyectos';
+        if (currentPath === 'index.html' || currentPath === '') return p.name === 'Inicio';
+        return p.url.endsWith(currentPath);
+      });
+      if (currentIndex !== -1 && pages.length > 1) {
+        const prevIndex = (currentIndex - 1 + pages.length) % pages.length;
+        const nextIndex = (currentIndex + 1) % pages.length;
+        const prevPage = pages[prevIndex];
+        const nextPage = pages[nextIndex];
+
+        navContainer.innerHTML = `
+          <nav aria-label="Navegación del sitio" class="page-navigation">
+            <a href="${prevPage.url}" class="page-nav__link page-nav__link--prev">
+              <span class="page-nav__label">← Sección anterior</span>
+              <span class="page-nav__title">
+                <span class="page-nav__arrow page-nav__arrow--left">←</span>
+                ${prevPage.name}
+              </span>
+            </a>
+            <a href="${nextPage.url}" class="page-nav__link page-nav__link--next">
+              <span class="page-nav__label">Siguiente sección →</span>
+              <span class="page-nav__title">
+                ${nextPage.name}
+                <span class="page-nav__arrow page-nav__arrow--right">→</span>
+              </span>
+            </a>
+          </nav>
+        `;
+      }
+    }
+  };
+  initPageNavigation();
 
   /* Floating WhatsApp Button (`initFloatingWhatsApp`) */
   const initFloatingWhatsApp = () => {
