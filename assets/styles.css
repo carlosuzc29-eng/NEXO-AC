@@ -303,11 +303,13 @@ p, h1, h2, h3, h4 { margin-top: 0; }
 }
 .brand { display: inline-flex; align-items: center; position: relative; z-index: 2; text-decoration: none; }
 .brand__isotipo {
-  width: var(--logo-width-desktop);
-  height: auto;
+  width: 56px;
+  height: 56px;
   flex: 0 0 auto;
+  object-fit: contain;
+  transition: width .3s var(--ease), height .3s var(--ease);
 }
-.site-header:not(.is-scrolled) .brand__isotipo { width: 42px; height: 42px; }
+.site-header.is-scrolled .brand__isotipo { width: 42px; height: 42px; }
 .brand:hover .brand__isotipo { transform: rotate(360deg); }
 .nav-links { display: flex; align-items: center; gap: clamp(1.4rem, 2.5vw, 2.8rem); }
 .nav-link {
@@ -1012,7 +1014,7 @@ body.home-page { background: var(--brand-offwhite); }
   padding-block: clamp(2rem, 5vh, 5rem) clamp(8rem, 14vh, 11rem);
 }
 .hero-v2__copy { min-width: 0; }
-.hero-brand-lockup { display: block; margin-bottom: 2rem; }
+.hero-brand-lockup { display: none; }
 .hero-brand__wordmark { height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.45)); }
 @media (max-width: 720px) { .hero-brand__wordmark { height: 34px; } }
 .hero-v2__copy .eyebrow { margin-bottom: 1.8rem; }
