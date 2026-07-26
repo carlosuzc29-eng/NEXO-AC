@@ -2123,3 +2123,156 @@ body.home-page { background: var(--nexo-white); }
   .hero-showcase, .project-feature img, .showreel-v2__button img, .team-card, .instagram-card { transform: none !important; }
   .custom-cursor { display: none !important; }
 }
+
+/* ===== MOBILE RESPONSIVE OPTIMIZATION ===== */
+
+.br-desktop { display: inline; }
+
+@media (max-width: 768px) {
+  :root {
+    --font-display: clamp(2.7rem, 8.5vw, 4.8rem);
+    --font-h1: clamp(2.4rem, 7.5vw, 4rem);
+    --font-h2: clamp(2rem, 6vw, 3.2rem);
+    --font-h3: clamp(1.35rem, 4vw, 2rem);
+    --font-lead: clamp(1rem, 2.8vw, 1.2rem);
+    --font-body: 1rem;
+    --font-small: 0.875rem;
+    --font-label: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  .br-desktop { display: none !important; }
+
+  :root {
+    --mobile-gutter: clamp(1.25rem, 5vw, 1.5rem);
+    --mobile-section-gap: clamp(4.5rem, 16vw, 7rem);
+    --mobile-content-gap: clamp(1.5rem, 6vw, 2.5rem);
+    --mobile-card-gap: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .display-xl { font-size: clamp(2rem, 9.5vw, 3.2rem); line-height: 1.08; }
+  .display-lg { font-size: clamp(1.7rem, 8vw, 2.6rem); line-height: 1.1; }
+  .display-md { font-size: clamp(1.5rem, 6.5vw, 2.2rem); line-height: 1.14; }
+
+  h1, h2, h3, .display-xl, .display-lg, .display-md {
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  /* Hero V2 */
+  .hero-v2 { padding-top: calc(var(--nav-height) + 1.5rem); padding-bottom: 2rem; }
+  .hero-v2__grid { grid-template-columns: 1fr; }
+  .hero-v2__title { font-size: clamp(2.2rem, 10vw, 3.2rem); line-height: 1.1; max-width: 100%; }
+  .hero-v2__lead { font-size: 1rem; line-height: 1.6; }
+  .hero-v2__copy .btn-row, .case-hero__content .btn-row, .page-hero .btn-row { flex-direction: column; width: 100%; }
+  .hero-v2__copy .btn, .case-hero__content .btn, .page-hero .btn { width: 100%; min-height: 50px; }
+  .hero-v2__micro { flex-wrap: wrap; }
+  .hero-showcase { transform: none; width: 100%; border-radius: var(--radius-md); }
+  .hero-showcase__tabs { justify-content: space-between; }
+  .hero-showcase__stamp { width: 42px; }
+  .hero-v2__glow { clip-path: inset(0); } /* Prevent glow overflow */
+
+  /* Navigation */
+  .mobile-menu__link { min-height: 56px; font-size: clamp(1.1rem, 4.5vw, 1.5rem); }
+  .site-header { padding-top: env(safe-area-inset-top); }
+  .mobile-menu { padding-bottom: env(safe-area-inset-bottom); }
+
+  /* Manifesto V2 */
+  .manifesto-v2__statement p { font-size: clamp(1.6rem, 7.5vw, 2.5rem); line-height: 1.12; }
+  .manifesto-v2__footer { font-size: .72rem; grid-template-columns: 1fr; }
+
+  /* Projects V2 */
+  .project-feature-grid { grid-template-columns: 1fr; }
+  .project-feature, .project-feature--wide, .project-feature--tall { min-height: clamp(340px, 80vw, 420px); }
+  .project-feature__meta h3 { font-size: clamp(1.6rem, 6.5vw, 2.2rem); }
+  .project-feature__open { opacity: 1; transform: none; }
+  .project-feature-grid { gap: clamp(1rem, 4vw, 1.6rem); }
+
+  /* Services V2 */
+  .service-row__trigger { grid-template-columns: 32px 1fr 24px; min-height: 48px; }
+  .service-row__trigger strong { font-size: clamp(1.05rem, 4.5vw, 1.3rem); }
+
+  /* Method V2 */
+  .method-v2__track { grid-template-columns: 1fr; }
+  .method-card { min-height: auto; padding-block: 1.2rem; border-top: 1px solid rgba(255,255,255,.16); }
+  .method-card h3 { font-size: clamp(1.2rem, 5vw, 1.5rem); }
+  .method-card::after { font-size: 1.5rem; }
+
+  /* Showreel V2 */
+  .showreel-v2__button img { height: clamp(40vh, 65vw, 55vh); }
+  .showreel-v2__play { width: 80px; }
+  .showreel-v2__caption { display: none; }
+
+  /* Archive V2 */
+  .archive-v2__card { width: 85vw; }
+  .archive-v2__card:nth-child(even) { margin-top: 0; }
+  .archive-v2__rail { gap: 1rem; width: max-content; }
+
+  /* Studio V2 */
+  .studio-v2__grid { grid-template-columns: 1fr; }
+  .studio-v2__content h2 { font-size: clamp(1.7rem, 7vw, 2.6rem); }
+  .studio-v2__principles { display: flex; flex-direction: column; }
+  .studio-v2__visual { max-height: 50vh; overflow: hidden; }
+
+  /* Team */
+  .home-team-layout, .team-grid { grid-template-columns: 1fr; }
+  .team-card__image { aspect-ratio: 1 / 1; }
+  .team-card__name { font-size: 1.2rem; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-links { flex-direction: column; gap: .8rem; }
+  .footer-meta { text-align: left; }
+
+  /* WhatsApp */
+  .floating-whatsapp { bottom: calc(1.2rem + env(safe-area-inset-bottom)); padding: .65rem; border-radius: 50%; }
+  .floating-whatsapp span { display: none; }
+
+  /* Form */
+  .project-form-shell, .option-grid { grid-template-columns: 1fr; }
+  .field input, .field textarea, .field select { font-size: 16px; }
+  .form-actions { flex-direction: column; }
+  .form-actions .btn { width: 100%; }
+
+  /* Case study */
+  .case-hero__content .display-xl { font-size: clamp(2rem, 9vw, 3rem); }
+  .case-meta, .case-gallery, .case-section-grid { grid-template-columns: 1fr; }
+  .page-navigation { grid-template-columns: 1fr; }
+  
+  /* Horizontal scroll fixes */
+  .hero-marquee__track { width: max-content; }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-display: clamp(2.3rem, 11vw, 3.5rem);
+    --font-h1: clamp(2.15rem, 10vw, 3.15rem);
+    --font-h2: clamp(1.75rem, 8vw, 2.6rem);
+    --font-h3: clamp(1.3rem, 5.5vw, 1.8rem);
+    --font-lead: clamp(1rem, 4.3vw, 1.12rem);
+    --font-body: 1rem;
+    --font-small: 0.875rem;
+    --font-label: 0.72rem;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor { display: none !important; }
+  .btn, .project-feature, .instagram-card { transform: none !important; }
+  .project-feature__open { opacity: 1 !important; transform: none !important; }
+  .instagram-card__overlay { opacity: 1 !important; background: rgba(6, 18, 27, 0.45); }
+  .instagram-card__view-btn, .instagram-card__stats { transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-marquee__track { animation: none !important; }
+  .hero-showcase, .showreel-v2__button img { transform: none !important; }
+  .preloader__isotipo { animation: none !important; }
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
