@@ -992,7 +992,7 @@ body.home-page { background: var(--brand-offwhite); }
   right: 5%;
   width: clamp(320px, 38vw, 580px);
   aspect-ratio: 1;
-  background: url("../img/nexo-isotipo-green.png") center / contain no-repeat;
+  background: url("img/nexo-isotipo-green.png") center / contain no-repeat;
   opacity: 0.07;
   z-index: 1;
   pointer-events: none;
