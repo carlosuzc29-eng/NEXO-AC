@@ -698,12 +698,13 @@
     const heroProjectTitle = qs('#hero-project-title');
     const heroProjectMeta = qs('#hero-project-meta');
     const heroProjectNumber = qs('#hero-project-number');
+    const heroVisualContainer = qs('#hero-visual-container') || qs('.hero-showcase__visual');
     let heroIndex = 0;
     let heroTimer = null;
     let isPaused = false;
 
     const setHeroProject = (button, userInitiated = false) => {
-      if (!button || !heroProjectImage) return;
+      if (!button || !heroVisualContainer) return;
       heroIndex = heroProjectButtons.indexOf(button);
       if (heroIndex === -1) heroIndex = 0;
       heroProjectButtons.forEach(item => {
@@ -711,17 +712,36 @@
         item.classList.toggle('is-active', active);
         item.setAttribute('aria-pressed', String(active));
       });
-      heroProjectImage.style.opacity = '0';
-      heroProjectImage.style.transform = 'scale(1.018)';
+      
+      heroVisualContainer.style.opacity = '0';
+      heroVisualContainer.style.transform = 'scale(1.018)';
+      
       window.setTimeout(() => {
-        heroProjectImage.src = button.dataset.image;
-        heroProjectImage.alt = `Proyecto ${button.dataset.title}`;
+        if (button.dataset.mediaType === 'dynamic') {
+          heroVisualContainer.innerHTML = `
+            <div class="dynamic-media-card" style="--bg-color: ${button.dataset.dynamicBg};">
+              <div class="dynamic-media-card__text">
+                <h3 style="color: #e63946;">${button.dataset.dynamicTitle}</h3>
+                <p>${button.dataset.dynamicDesc}</p>
+              </div>
+              <div class="phone-mockup">
+                <video alt="Video promocional" autoplay loop muted playsinline poster="${button.dataset.dynamicPoster}">
+                  <source src="${button.dataset.dynamicVideo}" type="video/mp4"/>
+                </video>
+              </div>
+            </div>`;
+        } else {
+          heroVisualContainer.innerHTML = `<img alt="Proyecto ${button.dataset.title}" decoding="async" fetchpriority="high" height="1100" id="hero-project-image" loading="eager" src="${button.dataset.image}" width="1600" style="width:100%;height:100%;object-fit:cover;"/>`;
+        }
+
         if (heroProjectTitle) heroProjectTitle.textContent = button.dataset.title;
         if (heroProjectMeta) heroProjectMeta.textContent = button.dataset.meta;
         if (heroProjectNumber) heroProjectNumber.textContent = button.dataset.number;
-        heroProjectImage.style.opacity = '1';
-        heroProjectImage.style.transform = '';
+        
+        heroVisualContainer.style.opacity = '1';
+        heroVisualContainer.style.transform = '';
       }, 180);
+      
       if (userInitiated && heroTimer) {
         window.clearInterval(heroTimer);
         startHeroTimer();
