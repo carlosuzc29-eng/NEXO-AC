@@ -988,9 +988,9 @@ body.home-page { background: var(--brand-offwhite); }
 .hero-v2::after {
   content: "";
   position: absolute;
-  top: 8%;
-  right: 5%;
-  width: clamp(320px, 38vw, 580px);
+  top: -5%;
+  right: -5%;
+  width: clamp(500px, 62vw, 920px);
   aspect-ratio: 1;
   background: url("img/nexo-isotipo-green.png") center / contain no-repeat;
   opacity: 0.07;
