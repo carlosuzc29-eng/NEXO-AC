@@ -5,13 +5,13 @@
 /* 01. Tokens */
 :root {
   /* Identidad */
-  --brand-primary: var(--brand-primary);
-  --brand-accent: var(--brand-accent);
-  --brand-accent-bright: var(--brand-accent-bright);
-  --brand-black: var(--brand-black);
-  --brand-black-soft: var(--brand-black-soft);
+  --brand-primary: #1f3549;
+  --brand-accent: #00b92c;
+  --brand-accent-bright: #00db34;
+  --brand-black: #07131d;
+  --brand-black-soft: #05090d;
   --brand-blue-soft: #29475f;
-  --brand-white: var(--brand-white);
+  --brand-white: #ffffff;
   --brand-offwhite: #f5f7f3;
   --brand-paper: #edf0eb;
   
@@ -33,8 +33,8 @@
   --text-secondary-light: #4e5964;
 
   /* Bordes */
-  --border-on-dark: var(--border-on-dark);
-  --border-on-light: var(--border-on-light);
+  --border-on-dark: rgba(255, 255, 255, 0.18);
+  --border-on-light: rgba(31, 53, 73, 0.18);
 
   /* Tipografías */
   --font-display: clamp(4rem, 7vw, 8rem);
