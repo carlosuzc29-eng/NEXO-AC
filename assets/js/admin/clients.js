@@ -1,4 +1,4 @@
-import { db } from '../../assets/js/firebase-init.js';
+import { db } from '../firebase-init.js';
 
 const tbody = document.getElementById('clients-tbody');
 const modal = document.getElementById('modal-client');

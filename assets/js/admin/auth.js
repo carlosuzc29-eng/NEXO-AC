@@ -1,4 +1,4 @@
-import { app, db } from '../../assets/js/firebase-init.js';
+import { app, db } from '../firebase-init.js';
 // Using compat scripts loaded in HTML
 const auth = firebase.auth();
 
