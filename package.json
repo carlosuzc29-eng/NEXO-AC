@@ -7,5 +7,8 @@
     "preview": "python3 -m http.server 8000",
     "validate": "python3 scripts/validate_site.py",
     "build": "python3 scripts/prepare_deploy.py"
+  },
+  "dependencies": {
+    "firebase": "^12.17.0"
   }
 }

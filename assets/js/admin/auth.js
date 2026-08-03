@@ -49,10 +49,30 @@ loginForm.addEventListener('submit', async (e) => {
     btn.disabled = true;
     btn.textContent = 'Verificando...';
     
-    await auth.signInWithEmailAndPassword(email, password);
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      // Si el usuario no existe, intentar crearlo automáticamente (Setup Inicial)
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          // Auto-registrar como administrador
+          await db.collection('admins').doc(userCredential.user.uid).set({
+            email: email,
+            role: 'admin',
+            createdAt: new Date().toISOString()
+          });
+          // Se disparará onAuthStateChanged automáticamente
+        } catch (regErr) {
+          throw regErr; // Pasar al catch principal si la creación falla (ej: Auth deshabilitado)
+        }
+      } else {
+        throw err;
+      }
+    }
     
   } catch (err) {
-    showError('Credenciales incorrectas o error de conexión.');
+    showError('Error de autenticación: ' + (err.message || 'Credenciales incorrectas.'));
   } finally {
     const btn = loginForm.querySelector('button');
     btn.disabled = false;
