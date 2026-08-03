@@ -1,4 +1,4 @@
-import { app, db } from '../firebase-init.js';
+const db = firebase.firestore();
 // Using compat scripts loaded in HTML
 const auth = firebase.auth();
 

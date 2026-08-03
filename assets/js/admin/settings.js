@@ -1,4 +1,4 @@
-import { db } from '../firebase-init.js';
+const db = firebase.firestore();
 
 const btnExport = document.getElementById('btn-export-backup');
 

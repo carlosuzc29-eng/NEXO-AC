@@ -1,4 +1,4 @@
-import { db } from '../firebase-init.js';
+const db = firebase.firestore();
 
 const tbody = document.getElementById('publications-tbody');
 const modal = document.getElementById('modal-publication');
