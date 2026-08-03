@@ -40,19 +40,27 @@
   </div>
   
   <div id="client-content" style="display: none;">
-    <section class="case-hero" id="client-hero" style="background-color: var(--blue-900);">
+    <section class="case-hero" id="client-hero" style="background-color: var(--bg-dark); min-height: auto; padding: 120px 0 60px;">
       <div class="container case-hero__content">
-        <div class="hero-top-actions">
+        <div class="hero-top-actions" style="margin-bottom: 2rem;">
           <nav aria-label="Migas de pan" class="breadcrumbs"><ol><li><a href="../index.html">Inicio</a></li><li><a href="index.html">Proyectos</a></li><li aria-current="page" id="breadcrumb-name"></li></ol></nav>
           <a class="btn-back" href="index.html">← VOLVER</a>
         </div>
-        <div class="hero-brand-lockup"><img alt="Nexo Agencia Creativa" class="hero-brand__wordmark" src="../assets/img/nexo-logo-full-white.png"/></div>
-        <span class="eyebrow" id="client-category-label"></span>
-        <h1 class="display-xl" id="client-title"></h1>
-        <div class="case-meta">
-          <span id="meta-client"></span>
-          <span id="meta-services"></span>
-          <span id="meta-sector"></span>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center;">
+          <div>
+            <div class="hero-brand-lockup"><img alt="Nexo Agencia Creativa" class="hero-brand__wordmark" src="../assets/img/nexo-logo-full-white.png"/></div>
+            <span class="eyebrow" id="client-category-label"></span>
+            <h1 class="display-xl" id="client-title"></h1>
+            <div class="case-meta">
+              <span id="meta-client"></span>
+              <span id="meta-services"></span>
+              <span id="meta-sector"></span>
+            </div>
+          </div>
+          <div style="text-align: center; display: flex; justify-content: center;" id="client-cover-container">
+            <img id="client-cover-img" src="" alt="Portada del proyecto" style="max-width: 100%; height: auto; max-height: 75vh; object-fit: contain; border-radius: 16px; display: none; box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+          </div>
         </div>
       </div>
     </section>
@@ -148,7 +156,11 @@
     document.getElementById('client-work').textContent = client.workDeveloped || client.challenge || '';
     
     if (client.coverImage) {
-      document.getElementById('client-hero').style.backgroundImage = `url('${client.coverImage}')`;
+      const coverImg = document.getElementById('client-cover-img');
+      coverImg.src = client.coverImage;
+      coverImg.style.display = 'block';
+    } else {
+      document.getElementById('client-cover-container').style.display = 'none';
     }
     
     if (client.instagramProfileUrl) {
