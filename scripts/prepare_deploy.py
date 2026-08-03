@@ -16,7 +16,7 @@ if DEST.exists():
     shutil.rmtree(DEST)
 DEST.mkdir(parents=True)
 
-for name in ['assets', 'proyectos']:
+for name in ['assets', 'proyectos', 'admin']:
     shutil.copytree(ROOT / name, DEST / name)
 for path in ROOT.glob('*.html'):
     shutil.copy2(path, DEST / path.name)
