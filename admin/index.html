@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panel Administrativo de Nexo Agencia Creativa">
+  <title>Nexo Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Auth View -->
+  <div class="auth-wrapper" id="auth-view">
+    <div class="auth-card">
+      <img src="../assets/img/nexo-isotipo-green.png" alt="Nexo">
+      <h2>Panel Administrativo</h2>
+      <p>Inicia sesión para continuar</p>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <input type="email" id="login-email" placeholder="Correo electrónico" required>
+        </div>
+        <div class="form-group">
+          <input type="password" id="login-password" placeholder="Contraseña" required>
+        </div>
+        <p id="login-error" class="text-error" style="display:none;"></p>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 1rem;">Ingresar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Layout -->
+  <div id="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/img/nexo-isotipo-green.png" alt="Nexo">
+        <span style="font-weight: 600;">Nexo Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-target="dashboard">Dashboard</a>
+        <a class="nav-item" data-target="clients">Clientes</a>
+        <a class="nav-item" data-target="publications">Publicaciones</a>
+        <a class="nav-item" data-target="settings">Configuración</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="btn-logout" class="btn btn-secondary" style="width:100%">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <h2 id="current-view-title" style="margin:0;">Dashboard</h2>
+        <div class="user-info">
+          <span id="user-email">Cargando...</span>
+        </div>
+      </header>
+      
+      <div class="content-area">
+        
+        <!-- Dashboard Section -->
+        <section id="view-dashboard" class="view-section active">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <div style="background: var(--bg-panel); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+              <h3 style="color: var(--text-secondary); font-size: 0.9rem;">Total Clientes</h3>
+              <p id="stat-clients" style="font-size: 2rem; color: var(--text-primary); margin: 0; font-weight: 600;">-</p>
+            </div>
+            <div style="background: var(--bg-panel); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+              <h3 style="color: var(--text-secondary); font-size: 0.9rem;">Total Publicaciones</h3>
+              <p id="stat-publications" style="font-size: 2rem; color: var(--text-primary); margin: 0; font-weight: 600;">-</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section id="view-clients" class="view-section">
+          <div class="flex-between mb-4">
+            <p>Gestiona los clientes y casos de estudio.</p>
+            <button class="btn btn-primary" id="btn-new-client">+ Nuevo Cliente</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="clients-tbody">
+              <!-- Dynamically loaded -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="view-publications" class="view-section">
+          <div class="flex-between mb-4">
+            <p>Gestiona las publicaciones asociadas a los clientes.</p>
+            <button class="btn btn-primary" id="btn-new-publication">+ Nueva Publicación</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Cliente</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="publications-tbody">
+              <!-- Dynamically loaded -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="view-settings" class="view-section">
+          <div style="background: var(--bg-panel); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); max-width: 600px;">
+            <h3>Respaldo de Datos</h3>
+            <p>Descarga un archivo JSON con la información de Firestore para usarlo como fallback local (default-content.json).</p>
+            <button class="btn btn-primary mt-4" id="btn-export-backup">Generar Backup Local</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modals -->
+  <!-- Client Modal -->
+  <div class="modal-overlay" id="modal-client">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="client-modal-title" style="margin:0;">Nuevo Cliente</h3>
+        <button class="close-modal" data-dismiss="modal-client">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-client">
+          <input type="hidden" id="client-id">
+          <div class="form-group">
+            <label>ID/Slug (Ej: burger-house)</label>
+            <input type="text" id="client-slug" required>
+          </div>
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="client-name" required>
+          </div>
+          <div class="form-group">
+            <label>Categoría</label>
+            <input type="text" id="client-category" required>
+          </div>
+          <div class="form-group">
+            <label>Servicios (separados por coma)</label>
+            <input type="text" id="client-services">
+          </div>
+          <div class="form-group">
+            <label>Año</label>
+            <input type="number" id="client-year">
+          </div>
+          <div class="form-group">
+            <label>Resumen</label>
+            <textarea id="client-summary" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Reto / Trabajo desarrollado</label>
+            <textarea id="client-work" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>URL de Perfil Instagram</label>
+            <input type="url" id="client-instagram">
+          </div>
+          <div class="form-group">
+            <label>URL Imagen Cover (Opcional)</label>
+            <input type="url" id="client-cover">
+          </div>
+          <div class="form-group">
+            <label><input type="checkbox" id="client-published"> Publicado</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal" data-dismiss="modal-client">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-client">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publication Modal -->
+  <div class="modal-overlay" id="modal-publication">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="pub-modal-title" style="margin:0;">Nueva Publicación</h3>
+        <button class="close-modal" data-dismiss="modal-publication">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-publication">
+          <input type="hidden" id="pub-id">
+          <div class="form-group">
+            <label>Cliente Asociado</label>
+            <select id="pub-client" required>
+              <option value="">Seleccione un cliente...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Título / Referencia</label>
+            <input type="text" id="pub-title" required>
+          </div>
+          <div class="form-group">
+            <label>Tipo (Reel, Carrusel, Imagen)</label>
+            <input type="text" id="pub-type">
+          </div>
+          <div class="form-group">
+            <label>URL en Instagram</label>
+            <input type="url" id="pub-url">
+          </div>
+          <div class="form-group">
+            <label>URL del Thumbnail / Poster</label>
+            <input type="url" id="pub-thumbnail">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary close-modal" data-dismiss="modal-publication">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-publication">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  
+  <script type="module" src="../assets/js/firebase-init.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script type="module" src="js/clients.js"></script>
+  <script type="module" src="js/publications.js"></script>
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

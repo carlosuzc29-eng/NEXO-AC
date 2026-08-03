@@ -1,0 +1,46 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Función para validar si el usuario está autenticado y es administrador
+    function isAdmin() {
+      return request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Configuración Pública
+    match /siteSettings/public {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Clientes
+    match /clients/{clientId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+      
+      // Publicaciones por cliente
+      match /publications/{pubId} {
+        allow read: if resource.data.status == 'published' || isAdmin();
+        allow write: if isAdmin();
+      }
+    }
+
+    // Servicios
+    match /services/{serviceId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Equipo
+    match /team/{memberId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Administradores (Solo lectura interna para la función isAdmin, nadie puede leer la colección completa públicamente)
+    match /admins/{uid} {
+      allow read, write: if false; 
+    }
+  }
+}

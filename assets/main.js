@@ -725,7 +725,7 @@
                 <p>${button.dataset.dynamicDesc}</p>
               </div>
               <div class="phone-mockup">
-                <video alt="Video promocional" autoplay loop muted playsinline poster="${button.dataset.dynamicPoster}">
+                <video aria-label="Video promocional" preload="none" data-lazy-video loop muted playsinline poster="${button.dataset.dynamicPoster}">
                   <source src="${button.dataset.dynamicVideo}" type="video/mp4"/>
                 </video>
               </div>
@@ -1286,3 +1286,8 @@
   /* Current year */
   qsa('[data-year]').forEach(node => { node.textContent = new Date().getFullYear(); });
 })();
+
+// Hook for dynamic/legacy client rendering
+if (document.body.dataset.clientSlug) {
+  import("./js/client-override.js").catch(e => console.warn("Failed to load client-override", e));
+}

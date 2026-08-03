@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#07131D" name="theme-color"/>
+<title>Proyecto | Nexo Agencia Creativa</title>
+<meta content="Caso de estudio de Nexo Agencia Creativa." name="description"/>
+<meta content="Proyecto | Nexo Agencia Creativa" property="og:title"/>
+<meta content="Caso de estudio de Nexo Agencia Creativa." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="__SITE_URL__/assets/img/og-cover.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../assets/img/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../assets/styles.css" rel="stylesheet"/>
+<meta content="Nexo Agencia Creativa" property="og:site_name"/>
+<link rel="canonical" id="canonical-link" href="" />
+</head>
+<body data-page="proyectos/detalle.html">
+<header class="site-header" data-header="">
+<nav aria-label="Navegación principal" class="site-nav">
+<a aria-label="Nexo Agencia Creativa, inicio" class="brand" href="../index.html">
+<img alt="Nexo Agencia Creativa" class="brand__isotipo" height="42" src="../assets/img/nexo-isotipo-green.png" width="42"/>
+</a>
+<div class="nav-links">
+<a aria-current="page" class="nav-link" href="../proyectos/index.html">PROYECTOS</a>
+<a class="nav-link" href="../servicios.html">SERVICIOS</a>
+<a class="nav-link" href="../index.html#metodo">MÉTODO</a>
+<a class="nav-link" href="../estudio.html">ESTUDIO</a>
+<a class="nav-link nav-link--cta" href="../iniciar-proyecto.html">INICIAR PROYECTO ↗</a>
+</div>
+</nav>
+</header>
+
+<main id="contenido">
+  <div id="loading-state" style="padding: 120px 20px; text-align: center; color: white;">Cargando proyecto...</div>
+  <div id="error-state" style="display: none; padding: 120px 20px; text-align: center; color: white;">
+    <h2>Proyecto no encontrado</h2>
+    <a href="../proyectos/index.html" class="btn btn--green">Volver a proyectos</a>
+  </div>
+  
+  <div id="client-content" style="display: none;">
+    <section class="case-hero" id="client-hero" style="background-color: var(--blue-900);">
+      <div class="container case-hero__content">
+        <div class="hero-top-actions">
+          <nav aria-label="Migas de pan" class="breadcrumbs"><ol><li><a href="../index.html">Inicio</a></li><li><a href="index.html">Proyectos</a></li><li aria-current="page" id="breadcrumb-name"></li></ol></nav>
+          <a class="btn-back" href="index.html">← VOLVER</a>
+        </div>
+        <div class="hero-brand-lockup"><img alt="Nexo Agencia Creativa" class="hero-brand__wordmark" src="../assets/img/nexo-logo-full-white.png"/></div>
+        <span class="eyebrow" id="client-category-label"></span>
+        <h1 class="display-xl" id="client-title"></h1>
+        <div class="case-meta">
+          <span id="meta-client"></span>
+          <span id="meta-services"></span>
+          <span id="meta-sector"></span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container case-section-grid">
+        <h2>Resumen</h2>
+        <div>
+          <p class="lead" id="client-summary"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper">
+      <div class="container case-section-grid">
+        <h2>Trabajo desarrollado</h2>
+        <div>
+          <p class="lead" id="client-work"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--blue" id="publications-section" style="display: none;">
+      <div class="container">
+        <span class="eyebrow">Publicaciones de Instagram</span>
+        <div class="case-gallery" id="publications-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 2rem;">
+          <!-- Publicaciones inyectadas dinámicamente -->
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="instagram-cta-section" style="text-align: center; padding: 4rem 20px;">
+      <a href="#" id="instagram-link" class="btn btn--green" target="_blank" rel="noopener noreferrer">VER CUENTA EN INSTAGRAM</a>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+  import { getClientBySlug, getClientPublications } from '../assets/js/content-service.js';
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    
+    if (!slug) {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('error-state').style.display = 'block';
+      return;
+    }
+    
+    const client = await getClientBySlug(slug);
+    
+    if (!client) {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('error-state').style.display = 'block';
+      return;
+    }
+    
+    // Update SEO
+    document.title = `${client.name} | Caso de estudio Nexo`;
+    document.getElementById('canonical-link').href = window.location.href;
+    
+    // Render Client
+    document.getElementById('breadcrumb-name').textContent = client.name;
+    document.getElementById('client-title').textContent = client.name;
+    document.getElementById('client-category-label').textContent = `CASO DE ESTUDIO / ${client.category?.toUpperCase()}`;
+    
+    document.getElementById('meta-client').textContent = `Cliente: ${client.name}`;
+    document.getElementById('meta-services').textContent = `Servicios: ${(client.services || []).join(' · ')}`;
+    document.getElementById('meta-sector').textContent = `Sector: ${client.category} · Año: ${client.year || ''}`;
+    
+    // Inject JSON-LD
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": `Caso de estudio: ${client.name}`,
+      "author": {
+        "@type": "Organization",
+        "name": "Nexo Agencia Creativa"
+      },
+      "about": {
+        "@type": "Organization",
+        "name": client.name
+      },
+      "text": client.summary || ''
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+
+    document.getElementById('client-summary').textContent = client.summary || '';
+    document.getElementById('client-work').textContent = client.workDeveloped || client.challenge || '';
+    
+    if (client.coverImage) {
+      document.getElementById('client-hero').style.backgroundImage = `url('${client.coverImage}')`;
+    }
+    
+    if (client.instagramProfileUrl) {
+      document.getElementById('instagram-link').href = client.instagramProfileUrl.split('?')[0]; // Remove parameters
+    } else {
+      document.getElementById('instagram-cta-section').style.display = 'none';
+    }
+    
+    // Fetch publications
+    const publications = await getClientPublications(client.id);
+    if (publications && publications.length > 0) {
+      const container = document.getElementById('publications-container');
+      publications.forEach(pub => {
+        const div = document.createElement('div');
+        div.className = 'dynamic-media-card';
+        div.style.backgroundColor = '#1a1a1a';
+        div.style.padding = '20px';
+        div.style.borderRadius = '12px';
+        div.style.display = 'flex';
+        div.style.flexDirection = 'column';
+        
+        if (pub.thumbnailUrl) {
+            const img = document.createElement('img');
+            img.src = pub.thumbnailUrl;
+            img.style.width = '100%';
+            img.style.borderRadius = '8px';
+            img.style.marginBottom = '1rem';
+            img.alt = pub.title || '';
+            div.appendChild(img);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.style.backgroundColor = '#333';
+            placeholder.style.width = '100%';
+            placeholder.style.aspectRatio = '1/1';
+            placeholder.style.borderRadius = '8px';
+            placeholder.style.marginBottom = '1rem';
+            placeholder.style.display = 'flex';
+            placeholder.style.alignItems = 'center';
+            placeholder.style.justifyContent = 'center';
+            placeholder.textContent = client.name;
+            div.appendChild(placeholder);
+        }
+        
+        const type = document.createElement('span');
+        type.textContent = (pub.type || '').toUpperCase();
+        type.style.color = 'var(--green)';
+        type.style.fontSize = '0.8rem';
+        type.style.marginBottom = '0.5rem';
+        div.appendChild(type);
+        
+        if (pub.title) {
+            const title = document.createElement('h3');
+            title.textContent = pub.title;
+            title.style.fontSize = '1.2rem';
+            div.appendChild(title);
+        }
+        
+        if (pub.description) {
+            const desc = document.createElement('p');
+            desc.textContent = pub.description;
+            desc.style.fontSize = '0.9rem';
+            desc.style.color = '#ccc';
+            desc.style.marginTop = '0.5rem';
+            div.appendChild(desc);
+        }
+        
+        const link = document.createElement('a');
+        link.href = pub.instagramUrl ? pub.instagramUrl.split('?')[0] : '#';
+        link.textContent = 'VER PUBLICACIÓN EN INSTAGRAM';
+        link.className = 'btn btn--green';
+        link.style.marginTop = 'auto';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        div.appendChild(link);
+        
+        container.appendChild(div);
+      });
+      document.getElementById('publications-section').style.display = 'block';
+    }
+    
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('client-content').style.display = 'block';
+  });
+</script>
+</body>
+</html>
