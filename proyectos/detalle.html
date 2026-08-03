@@ -173,70 +173,27 @@
     const publications = await getClientPublications(client.id);
     if (publications && publications.length > 0) {
       const container = document.getElementById('publications-container');
+      container.removeAttribute('style'); // Remove inline styles, rely on .case-gallery
+      
       publications.forEach(pub => {
-        const div = document.createElement('div');
-        div.className = 'dynamic-media-card';
-        div.style.backgroundColor = '#1a1a1a';
-        div.style.padding = '20px';
-        div.style.borderRadius = '12px';
-        div.style.display = 'flex';
-        div.style.flexDirection = 'column';
-        
-        if (pub.thumbnailUrl) {
-            const img = document.createElement('img');
-            img.src = pub.thumbnailUrl;
-            img.style.width = '100%';
-            img.style.borderRadius = '8px';
-            img.style.marginBottom = '1rem';
-            img.alt = pub.title || '';
-            div.appendChild(img);
-        } else {
-            const placeholder = document.createElement('div');
-            placeholder.style.backgroundColor = '#333';
-            placeholder.style.width = '100%';
-            placeholder.style.aspectRatio = '1/1';
-            placeholder.style.borderRadius = '8px';
-            placeholder.style.marginBottom = '1rem';
-            placeholder.style.display = 'flex';
-            placeholder.style.alignItems = 'center';
-            placeholder.style.justifyContent = 'center';
-            placeholder.textContent = client.name;
-            div.appendChild(placeholder);
-        }
-        
-        const type = document.createElement('span');
-        type.textContent = (pub.type || '').toUpperCase();
-        type.style.color = 'var(--green)';
-        type.style.fontSize = '0.8rem';
-        type.style.marginBottom = '0.5rem';
-        div.appendChild(type);
-        
-        if (pub.title) {
-            const title = document.createElement('h3');
-            title.textContent = pub.title;
-            title.style.fontSize = '1.2rem';
-            div.appendChild(title);
-        }
-        
-        if (pub.description) {
-            const desc = document.createElement('p');
-            desc.textContent = pub.description;
-            desc.style.fontSize = '0.9rem';
-            desc.style.color = '#ccc';
-            desc.style.marginTop = '0.5rem';
-            div.appendChild(desc);
-        }
+        const figure = document.createElement('figure');
         
         const link = document.createElement('a');
         link.href = pub.instagramUrl ? pub.instagramUrl.split('?')[0] : '#';
-        link.textContent = 'VER PUBLICACIÓN EN INSTAGRAM';
-        link.className = 'btn btn--green';
-        link.style.marginTop = 'auto';
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        div.appendChild(link);
+        link.style.display = 'block';
+        link.style.width = '100%';
+        link.style.height = '100%';
         
-        container.appendChild(div);
+        const img = document.createElement('img');
+        img.src = pub.thumbnailUrl || client.coverImage;
+        img.alt = pub.title || 'Publicación de Instagram';
+        img.loading = 'lazy';
+        
+        link.appendChild(img);
+        figure.appendChild(link);
+        container.appendChild(figure);
       });
       document.getElementById('publications-section').style.display = 'block';
     }
