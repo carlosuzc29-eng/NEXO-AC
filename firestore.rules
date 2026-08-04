@@ -40,7 +40,8 @@ service cloud.firestore {
 
     // Administradores (Solo lectura interna para la función isAdmin, nadie puede leer la colección completa públicamente)
     match /admins/{uid} {
-      allow read, write: if false; 
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false; 
     }
   }
 }

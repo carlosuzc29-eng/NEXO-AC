@@ -14,17 +14,21 @@ let currentUser = null;
 // Auth State Observer
 auth.onAuthStateChanged(async (user) => {
   if (user) {
-    // Check if user is in 'admins' collection
     try {
-      const adminDoc = await db.collection('admins').doc(user.uid).get();
-      if (adminDoc.exists || user.email === 'carlosuzc29@gmail.com') { // Fallback basic admin validation
+      if (user.email === 'carlosuzc29@gmail.com') {
+        // Fallback admin: no necesita leer la colección para evitar errores de permisos si las reglas aún no se han desplegado
         currentUser = user;
         showApp(user);
-        
-        // Dispatch custom event to notify other scripts that auth is ready
         window.dispatchEvent(new CustomEvent('admin-auth-ready', { detail: { user } }));
       } else {
-        throw new Error('No tienes permisos de administrador.');
+        const adminDoc = await db.collection('admins').doc(user.uid).get();
+        if (adminDoc.exists) {
+          currentUser = user;
+          showApp(user);
+          window.dispatchEvent(new CustomEvent('admin-auth-ready', { detail: { user } }));
+        } else {
+          throw new Error('No tienes permisos de administrador.');
+        }
       }
     } catch (err) {
       console.error(err);
@@ -55,14 +59,8 @@ loginForm.addEventListener('submit', async (e) => {
       // Si el usuario no existe, intentar crearlo automáticamente (Setup Inicial)
       if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
         try {
-          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-          // Auto-registrar como administrador
-          await db.collection('admins').doc(userCredential.user.uid).set({
-            email: email,
-            role: 'admin',
-            createdAt: new Date().toISOString()
-          });
-          // Se disparará onAuthStateChanged automáticamente
+          await auth.createUserWithEmailAndPassword(email, password);
+          // Se disparará onAuthStateChanged automáticamente, y el correo hardcodeado dará acceso
         } catch (regErr) {
           throw regErr; // Pasar al catch principal si la creación falla (ej: Auth deshabilitado)
         }
