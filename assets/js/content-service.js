@@ -69,13 +69,16 @@ export async function getClientBySlug(slug) {
 export async function getClientPublications(clientId) {
     if (db) {
         try {
-            const q = query(collection(db, `clients/${clientId}/publications`), where('status', '==', 'published'), orderBy('order', 'asc'));
+            const q = query(collection(db, `clients/${clientId}/publications`));
             const querySnapshot = await getDocs(q);
-            const publications = [];
-            querySnapshot.forEach((doc) => {
-                publications.push({ id: doc.id, ...doc.data() });
+            const pubs = [];
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.status === 'published') {
+                    pubs.push({ id: doc.id, ...data });
+                }
             });
-            return publications;
+            return pubs.sort((a, b) => (a.order || 0) - (b.order || 0));
         } catch (e) {
             console.warn("Failed to get publications from Firestore, using local fallback", e);
         }
@@ -84,22 +87,30 @@ export async function getClientPublications(clientId) {
 }
 
 export async function getHomeHeroPublication() {
-    // This function can be optimized in the future. 
-    // Right now, since we only want ONE hero video, we fetch all clients and their hero placements.
-    // Alternatively, we could maintain a "homeSettings" doc with the direct URL, but this keeps the single source of truth.
     if (db) {
         try {
-            const q = query(collectionGroup(db, 'publications'), where('status', '==', 'published'), where('placements', 'array-contains', 'homeHero'));
+            const q = query(collectionGroup(db, 'publications'), where('placements', 'array-contains', 'homeHero'));
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
-                // Get the first one that is also featured or just the first one
-                return { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
+                const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const published = docs.find(d => d.status === 'published');
+                if (published) return published;
             }
         } catch (e) {
-            console.warn("Failed to get hero from Firestore (Requires Collection Group Index). Fallback to local", e);
+            console.warn("Failed to get home hero publication from Firestore", e);
         }
     }
-    return null;
+    // Fallback: buscar en localData
+    const local = await getLocalData();
+    let hero = null;
+    (local?.clients || []).forEach(c => {
+        (c.publications || []).forEach(p => {
+            if (p.placements && p.placements.includes('homeHero') && p.status === 'published') {
+                hero = p;
+            }
+        });
+    });
+    return hero;
 }
 
 export function sanitizeHTML(str) {
