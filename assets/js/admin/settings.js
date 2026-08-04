@@ -1,4 +1,4 @@
-const db = firebase.firestore();
+import { db } from './admin-db.js';
 
 const btnExport = document.getElementById('btn-export-backup');
 
@@ -15,8 +15,13 @@ btnExport.addEventListener('click', async () => {
     const clientsSnap = await db.collection('clients').get();
     data.clients = clientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-    const pubsSnap = await db.collection('publications').get();
-    data.publications = pubsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Fetch publications from subcollections
+    for (const client of data.clients) {
+      const pubsSnap = await db.collection(`clients/${client.id}/publications`).get();
+      pubsSnap.forEach(doc => {
+        data.publications.push({ id: doc.id, clientId: client.id, ...doc.data() });
+      });
+    }
 
     // Cleanup dates for JSON format (Firebase timestamps to ISO string)
     const sanitizeData = (items) => {

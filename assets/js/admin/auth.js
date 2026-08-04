@@ -1,6 +1,4 @@
-const db = firebase.firestore();
-// Using compat scripts loaded in HTML
-const auth = firebase.auth();
+import { db, auth } from './admin-db.js';
 
 const authView = document.getElementById('auth-view');
 const appLayout = document.getElementById('app-layout');
@@ -16,7 +14,6 @@ auth.onAuthStateChanged(async (user) => {
   if (user) {
     try {
       if (user.email === 'carlosuzc29@gmail.com') {
-        // Fallback admin: no necesita leer la colección para evitar errores de permisos si las reglas aún no se han desplegado
         currentUser = user;
         showApp(user);
         window.dispatchEvent(new CustomEvent('admin-auth-ready', { detail: { user } }));
@@ -41,36 +38,29 @@ auth.onAuthStateChanged(async (user) => {
   }
 });
 
-// Login Logic
+// Login
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
-  
+
   try {
     loginError.style.display = 'none';
     const btn = loginForm.querySelector('button');
     btn.disabled = true;
     btn.textContent = 'Verificando...';
-    
+
     try {
       await auth.signInWithEmailAndPassword(email, password);
     } catch (err) {
-      // Si el usuario no existe, intentar crearlo automáticamente (Setup Inicial)
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-        try {
-          await auth.createUserWithEmailAndPassword(email, password);
-          // Se disparará onAuthStateChanged automáticamente, y el correo hardcodeado dará acceso
-        } catch (regErr) {
-          throw regErr; // Pasar al catch principal si la creación falla (ej: Auth deshabilitado)
-        }
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+        await auth.createUserWithEmailAndPassword(email, password);
       } else {
         throw err;
       }
     }
-    
   } catch (err) {
-    showError('Error de autenticación: ' + (err.message || 'Credenciales incorrectas.'));
+    showError('Error: ' + (err.message || 'Credenciales incorrectas.'));
   } finally {
     const btn = loginForm.querySelector('button');
     btn.disabled = false;
@@ -78,10 +68,8 @@ loginForm.addEventListener('submit', async (e) => {
   }
 });
 
-// Logout Logic
-btnLogout.addEventListener('click', () => {
-  auth.signOut();
-});
+// Logout
+btnLogout.addEventListener('click', () => auth.signOut());
 
 function showApp(user) {
   authView.style.display = 'none';

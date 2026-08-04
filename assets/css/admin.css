@@ -26,7 +26,7 @@ body {
 }
 
 /* Typography */
-h1, h2, h3 { font-weight: 600; margin-bottom: 1rem; }
+h1, h2, h3, h4 { font-weight: 600; margin-bottom: 1rem; }
 h1 { font-size: 1.5rem; }
 h2 { font-size: 1.25rem; }
 p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; }
@@ -159,6 +159,19 @@ p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; }
   text-align: left;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 label {
   display: block;
   font-size: 0.85rem;
@@ -182,6 +195,12 @@ textarea {
   font-size: 0.95rem;
   font-family: inherit;
   transition: border-color 0.2s;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-green);
 }
 
 input:focus, select:focus, textarea:focus {
@@ -276,6 +295,7 @@ input:focus, select:focus, textarea:focus {
 }
 .badge-success { background: rgba(0, 210, 127, 0.15); color: var(--accent-green); }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+.badge-danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
 /* Modals */
 .modal-overlay {
@@ -303,6 +323,9 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   max-height: 90vh;
+}
+.modal-lg {
+  max-width: 800px;
 }
 .modal-header {
   padding: 1.5rem;

@@ -2521,3 +2521,149 @@ body.home-page { background: var(--brand-offwhite); }
     transform: rotate(0deg) translateY(0);
   }
 }
+
+/* =========================================================
+   MEDIA FRAME COMPONENT (Unified Media Player)
+   ========================================================= */
+.media-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px; 
+  background-color: var(--brand-black-soft);
+  display: block;
+  text-decoration: none;
+}
+
+.media-frame video,
+.media-frame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.media-frame__fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-black-soft);
+  color: var(--brand-gray);
+  font-size: 0.9rem;
+}
+
+.media-frame__overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+}
+
+.media-frame--instagram:hover .media-frame__overlay {
+  opacity: 1;
+}
+
+.media-frame__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  color: white;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.media-frame__play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--client-color, var(--brand-accent));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+.media-frame__play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.media-frame__play-btn svg {
+  margin-left: 4px;
+}
+
+
+/* =========================================================
+   CASE GALLERY EDITORIAL GRIDS
+   ========================================================= */
+.case-gallery {
+  display: grid;
+  gap: 24px;
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+}
+
+/* 1 Item: Large and centered */
+.gallery-grid--1 {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 2 Items: Balanced 50/50 */
+.gallery-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 3 Items: One featured, two smaller */
+.gallery-grid--3 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.gallery-grid--3 .gallery-item:first-child {
+  grid-column: 1 / -1;
+}
+
+/* 4-6 Items: Editorial Grid */
+.gallery-grid--editorial {
+  grid-template-columns: repeat(3, 1fr);
+}
+.gallery-grid--editorial .gallery-item:nth-child(1),
+.gallery-grid--editorial .gallery-item:nth-child(4) {
+  grid-column: span 2;
+}
+
+/* Fallback Grid */
+.gallery-grid--default {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .case-gallery[class*="gallery-grid--"] {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .gallery-grid--editorial .gallery-item:nth-child(1),
+  .gallery-grid--editorial .gallery-item:nth-child(4),
+  .gallery-grid--3 .gallery-item:first-child {
+    grid-column: auto;
+  }
+}

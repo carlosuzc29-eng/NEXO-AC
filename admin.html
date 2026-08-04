@@ -107,6 +107,7 @@
                 <th>Título</th>
                 <th>Cliente</th>
                 <th>Tipo</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -120,7 +121,7 @@
         <section id="view-settings" class="view-section">
           <div style="background: var(--bg-panel); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color); max-width: 600px;">
             <h3>Respaldo de Datos</h3>
-            <p>Descarga un archivo JSON con la información de Firestore para usarlo como fallback local (default-content.json).</p>
+            <p>Descarga un archivo JSON con la información de Firestore.</p>
             <button class="btn btn-primary mt-4" id="btn-export-backup">Generar Backup Local</button>
           </div>
         </section>
@@ -132,7 +133,7 @@
   <!-- Modals -->
   <!-- Client Modal -->
   <div class="modal-overlay" id="modal-client">
-    <div class="modal">
+    <div class="modal modal-lg">
       <div class="modal-header">
         <h3 id="client-modal-title" style="margin:0;">Nuevo Cliente</h3>
         <button class="close-modal" data-dismiss="modal-client">&times;</button>
@@ -140,57 +141,125 @@
       <div class="modal-body">
         <form id="form-client">
           <input type="hidden" id="client-id">
-          <div class="form-group">
-            <label>ID/Slug (Ej: burger-house)</label>
-            <input type="text" id="client-slug" required>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>ID/Slug (Ej: burger-house) *</label>
+              <input type="text" id="client-slug" required>
+            </div>
+            <div class="form-group">
+              <label>Nombre del Cliente *</label>
+              <input type="text" id="client-name" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" id="client-name" required>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Categoría (Ej: Gastronomía)</label>
+              <input type="text" id="client-category">
+            </div>
+            <div class="form-group">
+              <label>Industria (Ej: Restaurante)</label>
+              <input type="text" id="client-industry">
+            </div>
           </div>
+
           <div class="form-group">
-            <label>Categoría</label>
-            <input type="text" id="client-category" required>
+            <label>Servicios realizados (separados por coma)</label>
+            <input type="text" id="client-services" placeholder="Estrategia, Diseño, Redes">
           </div>
+
           <div class="form-group">
-            <label>Servicios (separados por coma)</label>
-            <input type="text" id="client-services">
+            <label>Descripción Corta / Resumen</label>
+            <textarea id="client-short-desc" rows="2"></textarea>
           </div>
+
           <div class="form-group">
-            <label>Año</label>
-            <input type="number" id="client-year">
+            <label>Descripción Larga / Trabajo Desarrollado</label>
+            <textarea id="client-long-desc" rows="4"></textarea>
           </div>
-          <div class="form-group">
-            <label>Resumen</label>
-            <textarea id="client-summary" rows="3"></textarea>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>URL Instagram</label>
+              <input type="url" id="client-instagram">
+            </div>
+            <div class="form-group">
+              <label>URL Website</label>
+              <input type="url" id="client-website">
+            </div>
           </div>
-          <div class="form-group">
-            <label>Reto / Trabajo desarrollado</label>
-            <textarea id="client-work" rows="3"></textarea>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>URL Logo</label>
+              <input type="text" id="client-logo">
+            </div>
+            <div class="form-group">
+              <label>URL Imagen Cover</label>
+              <input type="text" id="client-cover">
+            </div>
           </div>
-          <div class="form-group">
-            <label>URL de Perfil Instagram</label>
-            <input type="url" id="client-instagram">
+
+          <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--accent-green)">Colores de Marca</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Color Primario</label>
+              <input type="text" id="client-primary-color" placeholder="#000000">
+            </div>
+            <div class="form-group">
+              <label>Color Secundario</label>
+              <input type="text" id="client-secondary-color" placeholder="#ffffff">
+            </div>
+            <div class="form-group">
+              <label>Color de Acento</label>
+              <input type="text" id="client-accent-color">
+            </div>
           </div>
-          <div class="form-group">
-            <label>URL Imagen Cover (Opcional)</label>
-            <input type="url" id="client-cover">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Color de Texto</label>
+              <input type="text" id="client-text-color">
+            </div>
+            <div class="form-group">
+              <label>Color de Fondo</label>
+              <input type="text" id="client-bg-color">
+            </div>
           </div>
+
+          <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--accent-green)">Configuración</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="client-status">
+                <option value="published">Publicado</option>
+                <option value="draft">Borrador</option>
+                <option value="archived">Archivado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Orden (Menor número = Más arriba)</label>
+              <input type="number" id="client-order" value="99">
+            </div>
+          </div>
+          
           <div class="form-group">
-            <label><input type="checkbox" id="client-published"> Publicado</label>
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" id="client-featured"> Destacado
+            </label>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary close-modal" data-dismiss="modal-client">Cancelar</button>
-        <button class="btn btn-primary" id="btn-save-client">Guardar</button>
+        <button class="btn btn-primary" id="btn-save-client">Guardar Cliente</button>
       </div>
     </div>
   </div>
 
   <!-- Publication Modal -->
   <div class="modal-overlay" id="modal-publication">
-    <div class="modal">
+    <div class="modal modal-lg">
       <div class="modal-header">
         <h3 id="pub-modal-title" style="margin:0;">Nueva Publicación</h3>
         <button class="close-modal" data-dismiss="modal-publication">&times;</button>
@@ -198,33 +267,151 @@
       <div class="modal-body">
         <form id="form-publication">
           <input type="hidden" id="pub-id">
-          <div class="form-group">
-            <label>Cliente Asociado</label>
-            <select id="pub-client" required>
-              <option value="">Seleccione un cliente...</option>
-            </select>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cliente Asociado *</label>
+              <select id="pub-client" required>
+                <option value="">Seleccione un cliente...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Título / Referencia Interna *</label>
+              <input type="text" id="pub-title" required>
+            </div>
           </div>
+
           <div class="form-group">
-            <label>Título / Referencia</label>
-            <input type="text" id="pub-title" required>
+            <label>Descripción Pública</label>
+            <textarea id="pub-description" rows="2"></textarea>
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fuente (Source Type)</label>
+              <select id="pub-source-type">
+                <option value="instagram_link">Enlace a Instagram</option>
+                <option value="local_video">Video Local (assets/)</option>
+                <option value="direct_video_url">URL Directa de Video (WebM/MP4)</option>
+                <option value="image">Imagen estática</option>
+                <option value="external_link">Enlace Externo General</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tipo de Contenido (Media Type)</label>
+              <select id="pub-media-type">
+                <option value="reel">Reel Vertical</option>
+                <option value="post">Post Cuadrado</option>
+                <option value="carousel">Carrusel</option>
+                <option value="video">Video Horizontal</option>
+                <option value="image">Imagen</option>
+                <option value="link">Enlace de texto</option>
+              </select>
+            </div>
+          </div>
+
           <div class="form-group">
-            <label>Tipo (Reel, Carrusel, Imagen)</label>
-            <input type="text" id="pub-type">
+            <label>URL de Instagram (Solo si es instagram_link)</label>
+            <input type="url" id="pub-instagram-url">
           </div>
-          <div class="form-group">
-            <label>URL en Instagram</label>
-            <input type="url" id="pub-url">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>URL de Video (.mp4 / .webm)</label>
+              <input type="text" id="pub-video-url">
+            </div>
+            <div class="form-group">
+              <label>URL de Imagen Directa</label>
+              <input type="text" id="pub-image-url">
+            </div>
           </div>
-          <div class="form-group">
-            <label>URL del Thumbnail / Poster</label>
-            <input type="url" id="pub-thumbnail">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>URL de Poster / Miniatura (Requerido para videos e IG)</label>
+              <input type="text" id="pub-poster-url">
+            </div>
+            <div class="form-group">
+              <label>URL de Thumbnail Pequeño (Opcional)</label>
+              <input type="text" id="pub-thumbnail-url">
+            </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Relación de Aspecto (Aspect Ratio)</label>
+              <select id="pub-aspect-ratio">
+                <option value="auto">Automático</option>
+                <option value="9:16">Vertical (9:16 - Reels)</option>
+                <option value="4:5">Vertical Corto (4:5)</option>
+                <option value="1:1">Cuadrado (1:1 - Post)</option>
+                <option value="16:9">Horizontal (16:9 - YouTube)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ajuste (Object Fit)</label>
+              <select id="pub-object-fit">
+                <option value="cover">Cover (Rellena todo, recorta)</option>
+                <option value="contain">Contain (No recorta, deja bordes)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Texto Alternativo (Accesibilidad)</label>
+              <input type="text" id="pub-alt-text">
+            </div>
+            <div class="form-group">
+              <label>Punto Focal (Ej: center, top, bottom)</label>
+              <input type="text" id="pub-focal-position" value="center">
+            </div>
+          </div>
+
+          <h4 style="margin-top: 1rem; margin-bottom: 0.5rem; color: var(--accent-green)">Ubicaciones (Placements)</h4>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">¿Dónde debe aparecer esta publicación?</p>
+          <div class="checkbox-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <label><input type="checkbox" name="pub-placements" value="homeHero"> Hero Principal (Inicio)</label>
+            <label><input type="checkbox" name="pub-placements" value="homeClientCard"> Tarjeta de Cliente (Inicio)</label>
+            <label><input type="checkbox" name="pub-placements" value="portfolioGrid"> Grid de Portafolio</label>
+            <label><input type="checkbox" name="pub-placements" value="clientGallery"> Galería del Cliente (Interna)</label>
+            <label><input type="checkbox" name="pub-placements" value="clientFeatured"> Destacado del Cliente (Interna)</label>
+            <label><input type="checkbox" name="pub-placements" value="archive"> Archivo General</label>
+          </div>
+
+          <h4 style="margin-bottom: 0.5rem; color: var(--accent-green)">Configuración</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="pub-status">
+                <option value="published">Publicado</option>
+                <option value="draft">Borrador</option>
+                <option value="archived">Archivado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Orden</label>
+              <input type="number" id="pub-order" value="99">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="pub-featured"> Contenido Destacado
+              </label>
+            </div>
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="pub-autoplay"> Autoplay Permitido (Si es video)
+              </label>
+            </div>
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary close-modal" data-dismiss="modal-publication">Cancelar</button>
-        <button class="btn btn-primary" id="btn-save-publication">Guardar</button>
+        <button class="btn btn-primary" id="btn-save-publication">Guardar Publicación</button>
       </div>
     </div>
   </div>
