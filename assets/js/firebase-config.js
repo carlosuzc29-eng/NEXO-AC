@@ -10,7 +10,7 @@
 // 6. Pega el código de inicialización allí.
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyC-KZJyvuXbunckv7j6W-6iNh-QPMd1tLI",
+    apiKey: "AIzaSyC-KZJyvuXbunckv7j6W-6iNh-QPMd1tlI",
     authDomain: "nexweb-ca6e4.firebaseapp.com",
     projectId: "nexweb-ca6e4",
     storageBucket: "nexweb-ca6e4.firebasestorage.app",
