@@ -1,4 +1,4 @@
-import { db } from './admin-db.js';
+import { db, storage } from './admin-db.js';
 
 const tbody = document.getElementById('publications-tbody');
 const modal = document.getElementById('modal-publication');
@@ -37,6 +37,45 @@ btnNew.addEventListener('click', () => {
   // Checkboxes deben resetearse manualmente a veces, pero form.reset() ayuda
   modal.classList.add('active');
 });
+
+// === Subida de Archivos a Firebase Storage ===
+async function uploadFile(file, path, progressEl, urlInputId) {
+  if (!file) return;
+  progressEl.style.display = 'block';
+  progressEl.textContent = 'Subiendo... 0%';
+  
+  const storageRef = storage.ref(`uploads/${path}/${Date.now()}_${file.name}`);
+  const task = storageRef.put(file);
+  
+  task.on('state_changed', 
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      progressEl.textContent = `Subiendo... ${Math.round(progress)}%`;
+    },
+    (error) => {
+      console.error(error);
+      progressEl.textContent = 'Error al subir';
+      progressEl.style.color = 'var(--danger)';
+    },
+    async () => {
+      const downloadURL = await task.snapshot.ref.getDownloadURL();
+      document.getElementById(urlInputId).value = downloadURL;
+      progressEl.textContent = '¡Completado!';
+      setTimeout(() => progressEl.style.display = 'none', 3000);
+    }
+  );
+}
+
+document.getElementById('pub-video-file')?.addEventListener('change', (e) => {
+  uploadFile(e.target.files[0], 'videos', document.getElementById('pub-video-progress'), 'pub-video-url');
+});
+document.getElementById('pub-image-file')?.addEventListener('change', (e) => {
+  uploadFile(e.target.files[0], 'images', document.getElementById('pub-image-progress'), 'pub-image-url');
+});
+document.getElementById('pub-poster-file')?.addEventListener('change', (e) => {
+  uploadFile(e.target.files[0], 'images', document.getElementById('pub-poster-progress'), 'pub-poster-url');
+});
+// =============================================
 
 async function loadPublications(clients) {
   try {
@@ -83,6 +122,7 @@ function renderTable() {
         </span>
       </td>
       <td>
+        <button class="btn btn-sm btn-secondary btn-preview" data-id="${pub.id}" data-client="${pub.clientId}">Vista Previa</button>
         <button class="btn btn-sm btn-secondary btn-edit" data-id="${pub.id}" data-client="${pub.clientId}">Editar</button>
         <button class="btn btn-sm btn-danger btn-delete" data-id="${pub.id}" data-client="${pub.clientId}">Eliminar</button>
       </td>
@@ -96,6 +136,29 @@ function renderTable() {
   tbody.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', (e) => deletePublication(e.target.dataset.id, e.target.dataset.client));
   });
+  tbody.querySelectorAll('.btn-preview').forEach(btn => {
+    btn.addEventListener('click', (e) => previewPublication(e.target.dataset.id, e.target.dataset.client));
+  });
+}
+
+async function previewPublication(pubId, clientId) {
+  const pub = pubsData.find(p => p.id === pubId && p.clientId === clientId);
+  if (!pub) return;
+  
+  // Extraer el color del cliente o uno genérico
+  const clientRef = await db.doc(`clients/${clientId}`).get();
+  const clientData = clientRef.exists ? clientRef.data() : { primaryColor: 'var(--accent-green)' };
+  
+  try {
+    const { renderMediaFrame, bindVideoControls } = await import('../media-frame.js');
+    const container = document.getElementById('preview-container');
+    container.innerHTML = renderMediaFrame(pub, clientData);
+    bindVideoControls();
+    document.getElementById('modal-preview').classList.add('active');
+  } catch (err) {
+    console.error("Error cargando media-frame para preview", err);
+    alert("Error al cargar la vista previa.");
+  }
 }
 
 function editPublication(id, clientId) {

@@ -317,19 +317,34 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>URL de Video (.mp4 / .webm)</label>
-              <input type="text" id="pub-video-url">
+              <label>Archivo o URL de Video (.mp4 / .webm)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="pub-video-url" placeholder="URL o subir archivo..." style="flex: 1;">
+                <input type="file" id="pub-video-file" accept="video/mp4,video/webm" style="display: none;">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pub-video-file').click()">Subir</button>
+              </div>
+              <div id="pub-video-progress" style="font-size: 0.8rem; color: var(--accent-green); margin-top: 0.3rem; display: none;">0%</div>
             </div>
             <div class="form-group">
-              <label>URL de Imagen Directa</label>
-              <input type="text" id="pub-image-url">
+              <label>Archivo o URL de Imagen Directa</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="pub-image-url" placeholder="URL o subir archivo..." style="flex: 1;">
+                <input type="file" id="pub-image-file" accept="image/*" style="display: none;">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pub-image-file').click()">Subir</button>
+              </div>
+              <div id="pub-image-progress" style="font-size: 0.8rem; color: var(--accent-green); margin-top: 0.3rem; display: none;">0%</div>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>URL de Poster / Miniatura (Requerido para videos e IG)</label>
-              <input type="text" id="pub-poster-url">
+              <label>Archivo o URL de Poster / Miniatura</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="pub-poster-url" placeholder="URL o subir archivo..." style="flex: 1;">
+                <input type="file" id="pub-poster-file" accept="image/*" style="display: none;">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('pub-poster-file').click()">Subir</button>
+              </div>
+              <div id="pub-poster-progress" style="font-size: 0.8rem; color: var(--accent-green); margin-top: 0.3rem; display: none;">0%</div>
             </div>
             <div class="form-group">
               <label>URL de Thumbnail Pequeño (Opcional)</label>
@@ -416,16 +431,30 @@
     </div>
   </div>
 
+  <!-- Preview Modal -->
+  <div class="modal-overlay" id="modal-preview">
+    <div class="modal" style="max-width: 900px; background: transparent; box-shadow: none; padding: 0;">
+      <div style="background: var(--bg-panel); border-radius: var(--radius-md) var(--radius-md) 0 0; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
+        <h2 style="margin: 0; color: white;">Previsualización</h2>
+        <button class="btn btn-secondary" onclick="document.getElementById('modal-preview').classList.remove('active')">Cerrar</button>
+      </div>
+      <div id="preview-container" style="background: #0a1118; padding: 2rem; border-radius: 0 0 var(--radius-md) var(--radius-md); display: flex; justify-content: center; align-items: center; min-height: 400px;">
+        <!-- El contenido se inyectará aquí con media-frame.js -->
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
   
-  <script type="module" src="assets/js/admin/admin-firebase-init.js"></script>
-  <script type="module" src="assets/js/admin/auth.js"></script>
-  <script type="module" src="assets/js/admin/dashboard.js"></script>
-  <script type="module" src="assets/js/admin/clients.js"></script>
-  <script type="module" src="assets/js/admin/publications.js"></script>
-  <script type="module" src="assets/js/admin/settings.js"></script>
+  <script src="assets/js/admin/admin-db.js" type="module"></script>
+  <script src="assets/js/admin/auth.js" type="module"></script>
+  <script src="assets/js/admin/dashboard.js" type="module"></script>
+  <script src="assets/js/admin/clients.js" type="module"></script>
+  <script src="assets/js/admin/publications.js" type="module"></script>
+  <script src="assets/js/admin/settings.js" type="module"></script>
 </body>
 </html>
