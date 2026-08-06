@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "firebase": "^12.17.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.4.0"
   }
 }
